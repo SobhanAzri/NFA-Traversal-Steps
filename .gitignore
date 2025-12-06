@@ -1,0 +1,18 @@
+# IDE Files or Folders
+.idea/
+
+#CMake
+cmake-build-*
+Makefile
+CMakeCache.txt
+CMakeFiles/
+
+# build versions
+build/
+Debug/
+Release/
+
+# filetypes
+*.bin
+*.sh
+*.app
