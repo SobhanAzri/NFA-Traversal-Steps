@@ -7,7 +7,10 @@ set(CMAKE_CXX_STANDARD 20)
 
 add_executable(NFA_Traversal_Steps
         src/main.cpp
-        src/tinyfiledialogs.cpp)
+        src/Tools/tinyfiledialogs.c
+        src/Automatas/nfa.cpp
+        src/States/state.cpp
+)
 
 target_include_directories(NFA_Traversal_Steps PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/include)
