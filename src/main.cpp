@@ -1,5 +1,7 @@
 #include "raylib.h"
 #include "Tools/raygui.h"
+#include "Automatas/nfa.h"
+
 extern "C"{
 #include "Tools/tinyfiledialogs.h"
 }
@@ -14,6 +16,8 @@ void initializeMainWindow();
 
 int main() {
     initializeMainWindow();
+
+    NFA nfa;
 
     while (!WindowShouldClose()) {
         BeginDrawing();

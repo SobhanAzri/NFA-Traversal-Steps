@@ -10,6 +10,8 @@ add_executable(NFA_Traversal_Steps
         src/Tools/tinyfiledialogs.c
         src/Automatas/nfa.cpp
         src/States/state.cpp
+        include/Transitions/transition.h
+        src/Transitions/transition.cpp
 )
 
 target_include_directories(NFA_Traversal_Steps PRIVATE
