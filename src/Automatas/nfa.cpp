@@ -11,6 +11,6 @@ NFA::NFA(const std::string &filePath) {
 }
 
 NFA::~NFA() {
-    delete InitialState;
+    //delete InitialState;
 }
 

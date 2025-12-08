@@ -19,9 +19,9 @@ public :
 protected:
     std::string filePath;
 
-    State* InitialState;
-    std::vector<State> normalStates;
-    std::vector<State> finalStates;
+   State* InitialState;
+   std::vector<State*> normalStates;
+   std::vector<State*> finalStates;
 
     std::vector<char> alphabet;
 };

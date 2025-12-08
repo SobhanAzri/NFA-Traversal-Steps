@@ -16,6 +16,9 @@ public :
 
     void initTransition();
 
+    void setStates(State* currentState, State* destinationState);
+    void setSymbols(const char *symbol);
+
 private :
 
     State* currentState;

@@ -3,6 +3,8 @@ default:
 
 build:
     rm -rf build
-    mkdir build
-    cmake -S . -B build
+    cmake -S . -B build -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
     cmake --build build
+
+run:
+    ./build/NFA_Traversal_Steps

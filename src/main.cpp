@@ -1,3 +1,5 @@
+#include <string>
+
 #include "raylib.h"
 #include "Tools/raygui.h"
 #include "Automatas/nfa.h"
@@ -12,15 +14,32 @@ extern "C"{
 #define WINDOW_MAIN_HEIGHT 600
 #define WINDOW_AUTOMATA_HEIGHT GetMonitorHeight(0)
 
+
+char* filePath;
+char* filePatterns[] = {"*.txt"};
+
 void initializeMainWindow();
 
 int main() {
     initializeMainWindow();
 
-    NFA nfa;
-
     while (!WindowShouldClose()) {
         BeginDrawing();
+
+        ClearBackground(GRAY);
+
+        if (GuiButton(Rectangle{WINDOW_MAIN_WIDTH / 2 - 75,WINDOW_MAIN_HEIGHT / 2 - 15, 150 , 30},
+                  GuiIconText(ICON_FILE_OPEN, "Open File...")))
+        {
+            filePath = tinyfd_openFileDialog(NULL,
+                                             "~/"
+                                             ,0,
+                                             filePatterns,
+                                             "Text Files",
+                                             false);
+        }
+
+        GuiLabel(Rectangle{100,100, WINDOW_MAIN_WIDTH , 30},filePath);
 
         EndDrawing();
     }
