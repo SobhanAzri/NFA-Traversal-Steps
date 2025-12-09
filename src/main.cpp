@@ -23,12 +23,17 @@ void initializeMainWindow();
 int main() {
     initializeMainWindow();
 
+    NFA nfa;
+
+    nfa.insertState("q0");
+    nfa.insertState("q1");
+
     while (!WindowShouldClose()) {
         BeginDrawing();
 
         ClearBackground(GRAY);
 
-        if (GuiButton(Rectangle{WINDOW_MAIN_WIDTH / 2 - 75,WINDOW_MAIN_HEIGHT / 2 - 15, 150 , 30},
+        if (GuiButton(Rectangle{static_cast<int>(WINDOW_MAIN_WIDTH / 2 - 75),static_cast<int>(WINDOW_MAIN_HEIGHT / 2 - 15), 150 , 30},
                   GuiIconText(ICON_FILE_OPEN, "Open File...")))
         {
             filePath = tinyfd_openFileDialog(NULL,
