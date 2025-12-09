@@ -1,6 +1,3 @@
-//
-// Created by nryxenon on 12/7/25.
-//
 #include <memory>
 
 #include "Automatas/nfa.h"
@@ -9,10 +6,6 @@
 
 NFA::NFA(const std::string &filePath) {
     this->filePath = filePath;
-}
-
-NFA::~NFA() {
-    //delete InitialState;
 }
 
 void NFA::insertState(const std::string &name) {
@@ -32,4 +25,12 @@ State* NFA::getState(const std::string &stateName) {
         return desiredState->second.get(); // come back later and check for the best method for returninh
 
     return nullptr;
+}
+
+void NFA::setFinalState(const std::string &stateName) {
+    states[stateName]->makeFinalState();
+}
+
+void NFA::initializeAlphabet(const char &symbol) {
+    alphabet.push_back(symbol);
 }

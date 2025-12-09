@@ -16,8 +16,6 @@ class FileReader {
 public :
     FileReader() = default;
     ~FileReader() = default;
-
-    static NFA loadFile(const std::string &filePath);
 };
 
 #endif //NFA_TRAVERSAL_STEPS_FILEREADER_H
