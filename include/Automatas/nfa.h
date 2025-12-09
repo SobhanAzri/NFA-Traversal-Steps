@@ -3,6 +3,7 @@
 //
 
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 class State;
@@ -16,12 +17,16 @@ public :
     NFA(const std::string &filePath);
     ~NFA();
 
+    void insertState(const std::string &name);
+
+    void setInitialState(const std::string &stateName);
+
+    State* getState(const std::string &stateName);
 protected:
     std::string filePath;
 
-   State* InitialState;
-   std::vector<State*> normalStates;
-   std::vector<State*> finalStates;
+   std::unique_ptr<State> InitialState;
+   std::unordered_map<std::string, std::unique_ptr<State>> states;
 
     std::vector<char> alphabet;
 };
