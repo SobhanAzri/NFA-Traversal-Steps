@@ -7,21 +7,6 @@
 #include "Tools/fileReader.h"
 #include "Automatas/nfa.h"
 
-NFA FileReader::loadFile(const std::string &filePath) {
-    NFA nfa;
-
-    std::ifstream automataFile(filePath);
-
-    if (automataFile.is_open())
-    {
-
-
-
-    }
-
-    return nfa;
-}
-
 void readComponents(NFA nfa, const std::string &componentName){
 
 }

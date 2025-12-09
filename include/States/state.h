@@ -8,8 +8,6 @@
 #include <string>
 #include <vector>
 
-class Transition;
-
 class State {
 public :
     State() = default;
@@ -18,7 +16,8 @@ public :
     inline void setStateName(const std::string &name) { stateName = name;}
     [[nodiscard]] inline std::string getStateName() const { return stateName;}
 
-    inline void makeInitialState() {bIsInitialState = true};
+    inline void makeInitialState() {bIsInitialState = true;}
+    inline void makeFinalState() {bIsFinalState = true;}
 
 protected :
 
@@ -26,8 +25,6 @@ protected :
     bool bIsFinalState = false;
 
     std::string stateName;
-
-    std::vector<Transition> transitions;
 };
 
 #endif //NFA_TRAVERSAL_STEPS_STATE_H
