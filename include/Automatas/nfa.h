@@ -9,7 +9,7 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
-#include "States/state.h"
+#include "state.h"
 
 
 class NFA {

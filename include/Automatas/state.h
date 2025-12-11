@@ -9,7 +9,7 @@
 #include <vector>
 #include <unordered_map>
 #include <memory>
-#include "Transitions/transition.h"
+#include "transition.h"
 
 
 class State:  public std::enable_shared_from_this<State>{

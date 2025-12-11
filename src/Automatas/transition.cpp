@@ -2,7 +2,7 @@
 // Created by nryxenon on 12/7/25.
 //
 
-#include "Transitions/transition.h"
+#include "Automatas/transition.h"
 
 void Transition::initTransition() {
 

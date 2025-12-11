@@ -2,8 +2,8 @@
 // Created by nryxenon on 12/7/25.
 //
 
-#include "States/state.h"
-#include "Transitions/transition.h"
+#include "Automatas/state.h"
+#include "Automatas/transition.h"
 
 void State::initializeTransition(std::shared_ptr<State> destinationState, const char &symbol) {
     const std::string &destinationName = destinationState->getStateName();
