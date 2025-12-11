@@ -27,6 +27,20 @@ int main() {
 
     nfa.insertState("q0");
     nfa.insertState("q1");
+    nfa.insertState("q2");
+
+    nfa.initializeAlphabet('a');
+    nfa.initializeAlphabet('b');
+
+    nfa.setInitialState("q0");
+    nfa.setFinalState("q2");
+
+    std::vector<std::string> dest1 = {"q1"};
+    std::vector<std::string> dest2 = {"q1", "q2"};
+
+    nfa.initializeTransitions("q0", dest1, 'a');
+    nfa.initializeTransitions("q0", dest2, 'b');
+
 
     while (!WindowShouldClose()) {
         BeginDrawing();

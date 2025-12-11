@@ -9,13 +9,17 @@ NFA::NFA(const std::string &filePath) {
 }
 
 void NFA::insertState(const std::string &name) {
-    states[name] = std::make_unique<State>();
+    states[name] = std::make_shared<State>();
     states[name]->setStateName(name);
 }
 
 void NFA::setInitialState(const std::string &stateName) {
-    InitialState = std::move(states[stateName]);
+    InitialState = states[stateName];
     InitialState->makeInitialState();
+}
+
+void NFA::setFinalState(const std::string &stateName) {
+    states[stateName]->makeFinalState();
 }
 
 State* NFA::getState(const std::string &stateName) {
@@ -27,10 +31,16 @@ State* NFA::getState(const std::string &stateName) {
     return nullptr;
 }
 
-void NFA::setFinalState(const std::string &stateName) {
-    states[stateName]->makeFinalState();
-}
 
 void NFA::initializeAlphabet(const char &symbol) {
     alphabet.push_back(symbol);
+}
+
+void NFA::initializeTransitions(const std::string &currentState,
+                                const std::vector<std::string> &destinationStates,
+                                const char &symbol){
+    for (const std::string &destination : destinationStates)
+    {
+        states[currentState]->initializeTransition(states[destination], symbol);
+    }
 }

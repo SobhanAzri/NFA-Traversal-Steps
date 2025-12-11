@@ -6,6 +6,7 @@
 #define NFA_TRAVERSAL_STEPS_TRANSITION_H
 
 #include <vector>
+#include <memory>
 
 class State;
 
@@ -16,13 +17,13 @@ public :
 
     void initTransition();
 
-    void setStates(State* currentState, State* destinationState);
-    void setSymbols(const char *symbol);
+    void setStates(const std::shared_ptr<State> &currentState, const std::shared_ptr<State> &destinationState);
+    void addSymbols(const char &symbol);
 
 private :
 
-    State* currentState;
-    State* destinationState;
+    std::shared_ptr<State> currentState;
+    std::shared_ptr<State> destinationState;
 
     std::vector<char> symbols;
 };

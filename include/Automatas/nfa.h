@@ -2,14 +2,15 @@
 // Created by nryxenon on 12/7/25.
 //
 
+#ifndef NFA_TRAVERSAL_STEPS_NFA_H
+#define NFA_TRAVERSAL_STEPS_NFA_H
+
 #include <memory>
 #include <string>
 #include <unordered_map>
 #include <vector>
 #include "States/state.h"
 
-#ifndef NFA_TRAVERSAL_STEPS_NFA_H
-#define NFA_TRAVERSAL_STEPS_NFA_H
 
 class NFA {
 public :
@@ -25,12 +26,15 @@ public :
     State* getState(const std::string &stateName);
 
     void initializeAlphabet(const char &symbol);
+    void initializeTransitions(const std::string &currentState ,
+                               const std::vector<std::string> &destinationStates,
+                               const char &symbol);
 
 protected:
     std::string filePath;
 
-   std::unique_ptr<State> InitialState;
-   std::unordered_map<std::string, std::unique_ptr<State>> states;
+   std::shared_ptr<State> InitialState;
+   std::unordered_map<std::string, std::shared_ptr<State>> states;  // maybe i will change it from unique_ptr to shared_ptr later
 
     std::vector<char> alphabet;
 };

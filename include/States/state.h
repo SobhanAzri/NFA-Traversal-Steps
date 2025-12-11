@@ -7,8 +7,12 @@
 
 #include <string>
 #include <vector>
+#include <unordered_map>
+#include <memory>
+#include "Transitions/transition.h"
 
-class State {
+
+class State:  public std::enable_shared_from_this<State>{
 public :
     State() = default;
     ~State() = default;
@@ -19,12 +23,18 @@ public :
     inline void makeInitialState() {bIsInitialState = true;}
     inline void makeFinalState() {bIsFinalState = true;}
 
+    void initializeTransition(std::shared_ptr<State> destinationState, const char &symbol);
+
+    inline std::shared_ptr<State> getClassPtr() { return shared_from_this(); }
+
 protected :
 
     bool bIsInitialState = false;
     bool bIsFinalState = false;
 
     std::string stateName;
+
+    std::unordered_map<std::string , std::shared_ptr<Transition>> transitions; // the string key is for the name of destionation state
 };
 
 #endif //NFA_TRAVERSAL_STEPS_STATE_H
