@@ -47,19 +47,6 @@ int main() {
 
         ClearBackground(GRAY);
 
-        if (GuiButton(Rectangle{static_cast<int>(WINDOW_MAIN_WIDTH / 2 - 75),static_cast<int>(WINDOW_MAIN_HEIGHT / 2 - 15), 150 , 30},
-                  GuiIconText(ICON_FILE_OPEN, "Open File...")))
-        {
-            filePath = tinyfd_openFileDialog(NULL,
-                                             "~/"
-                                             ,0,
-                                             filePatterns,
-                                             "Text Files",
-                                             false);
-        }
-
-        GuiLabel(Rectangle{100,100, WINDOW_MAIN_WIDTH , 30},filePath);
-
         EndDrawing();
     }
 
@@ -74,3 +61,27 @@ void initializeMainWindow() {
     SetTargetFPS(60);
     ClearBackground(LIGHTGRAY);
 }
+
+
+
+
+
+
+
+
+
+/*if (GuiButton(Rectangle{static_cast<int>(WINDOW_MAIN_WIDTH / 2 - 75),static_cast<int>(WINDOW_MAIN_HEIGHT / 2 - 15), 150 , 30},
+                  GuiIconText(ICON_FILE_OPEN, "Open File...")))
+        {
+            filePath = tinyfd_openFileDialog(NULL,
+                                             "~/"
+                                             ,0,
+                                             filePatterns,
+                                             "Text Files",
+                                             false);
+        }
+
+        GuiLabel(Rectangle{100,100, WINDOW_MAIN_WIDTH , 30},filePath);
+
+        EndDrawing();
+        */

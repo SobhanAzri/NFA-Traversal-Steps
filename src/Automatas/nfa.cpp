@@ -39,8 +39,13 @@ void NFA::initializeAlphabet(const char &symbol) {
 void NFA::initializeTransitions(const std::string &currentState,
                                 const std::vector<std::string> &destinationStates,
                                 const char &symbol){
+    auto currentStateIterator = states.find(currentState);
+
     for (const std::string &destination : destinationStates)
     {
-        states[currentState]->initializeTransition(states[destination], symbol);
+        auto destinationStateIterator = states.find(destination);
+
+        if (currentStateIterator != states.end() || destinationStateIterator != states.end())
+            states[currentState]->initializeTransition(states[destination], symbol);
     }
 }

@@ -13,8 +13,11 @@ void State::initializeTransition(std::shared_ptr<State> destinationState, const 
         iterator->second->addSymbols(symbol);
     else
     {
-        iterator->second = std::make_shared<Transition>();
-        iterator->second->setStates(getClassPtr(),destinationState);
-        iterator->second->addSymbols(symbol);
+        auto transition = std::make_shared<Transition>();
+
+        transition->setStates(getClassPtr(),destinationState);
+        transition->addSymbols(symbol);
+
+        transitions.insert({destinationName, transition});
     }
 }

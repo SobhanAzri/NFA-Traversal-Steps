@@ -17,6 +17,8 @@ public :
     State() = default;
     ~State() = default;
 
+    /// * Logical Section Functions * \\\
+
     inline void setStateName(const std::string &name) { stateName = name;}
     [[nodiscard]] inline std::string getStateName() const { return stateName;}
 
@@ -27,7 +29,13 @@ public :
 
     inline std::shared_ptr<State> getClassPtr() { return shared_from_this(); }
 
+    /// * Graphical Section Functions * \\\
+
+
+
 protected :
+
+    /// * Logical Section Variables * \\\
 
     bool bIsInitialState = false;
     bool bIsFinalState = false;
@@ -35,6 +43,10 @@ protected :
     std::string stateName;
 
     std::unordered_map<std::string , std::shared_ptr<Transition>> transitions; // the string key is for the name of destionation state
+
+    /// * Graphical Section Variables * \\\
+
+
 };
 
 #endif //NFA_TRAVERSAL_STEPS_STATE_H
