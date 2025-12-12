@@ -4,7 +4,29 @@
 
 #include "Renderer/renderer.h"
 #include "Automatas/nfa.h"
-#include <cmath>
+
+void drawArrow(const Vector2 &start, const Vector2 &end)
+{
+    DrawLineEx(start, end, 3, BLACK);
+
+    float dx = end.x - start.x;
+    float dy = end.y - start.y;
+
+    float angle = atan2f(dy, dx);
+
+    Vector2 left = {
+            end.x - 20 * cosf(angle - .5f),
+            end.y - 20 * sinf(angle - .5)
+    };
+
+    Vector2 right = {
+            end.x - 20 * cosf(angle + .5f),
+            end.y - 20 * sinf(angle + .5)
+    };
+
+    DrawLineEx(end, left, 3,BLACK);
+    DrawLineEx(end, right, 2,BLACK);
+}
 
 void Renderer::initializeVisualModel(const NFA &nfa) {
 
@@ -91,8 +113,15 @@ void Renderer::drawVisualModel() {
 
     for (const auto &iterator : visualTransitions)
     {
-        DrawLineV(visualStates[iterator.currentState].position,
-                  visualStates[iterator.destinationState].position,
-                  BLACK);
+        drawArrow(visualStates[iterator.currentState].position,
+                  visualStates[iterator.destinationState].position);
+
+
+        std::string symbols(iterator.symbols.begin() , iterator.symbols.end());
+        DrawText(symbols.data(),
+                 (visualStates[iterator.currentState].position.x + visualStates[iterator.destinationState].position.x) /2,
+                 (visualStates[iterator.currentState].position.y + visualStates[iterator.destinationState].position.y) /2,
+                 30,
+                 BLACK);
     }
 }

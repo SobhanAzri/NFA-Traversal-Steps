@@ -31,13 +31,13 @@ int main() {
     nfa.insertState("q1");
     nfa.insertState("q2");
     nfa.insertState("q3");
-    nfa.insertState("q4");
-    nfa.insertState("q5");
-    nfa.insertState("q6");
-    nfa.insertState("q7");
-    nfa.insertState("q8");
-    nfa.insertState("q9");
-    nfa.insertState("q10");
+//    nfa.insertState("q4");
+//    nfa.insertState("q5");
+//    nfa.insertState("q6");
+//    nfa.insertState("q7");
+//    nfa.insertState("q8");
+//    nfa.insertState("q9");
+//    nfa.insertState("q10");
 
     nfa.initializeAlphabet('a');
     nfa.initializeAlphabet('b');
@@ -47,9 +47,11 @@ int main() {
 
     std::vector<std::string> dest1 = {"q1"};
     std::vector<std::string> dest2 = {"q1", "q2"};
+    std::vector<std::string> dest3 = {"q3"};
 
     nfa.initializeTransitions("q0", dest1, 'a');
     nfa.initializeTransitions("q0", dest2, 'b');
+    nfa.initializeTransitions("q0", dest3, '!');
 
 
     renderer.initializeVisualModel(nfa);
@@ -61,8 +63,6 @@ int main() {
         ClearBackground(GRAY);
 
         renderer.drawVisualModel();
-
-        DrawTriangle({100,200},{100,300},{200,100},BLACK);
 
         EndDrawing();
     }

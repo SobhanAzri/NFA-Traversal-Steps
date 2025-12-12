@@ -6,6 +6,7 @@
 #define NFA_TRAVERSAL_STEPS_RENDERER_H
 
 #include <string>
+#include <cmath>
 #include <vector>
 #include <unordered_map>
 #include "raylib.h"
@@ -39,7 +40,7 @@ public :
     void drawVisualModel();
 
 protected :
-    int stateCount;
+    int stateCount = 0;
 
     std::unordered_map<std::string ,StateProperties> visualStates;
     std::vector<TransitionProperties> visualTransitions;
