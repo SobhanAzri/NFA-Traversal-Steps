@@ -3,15 +3,16 @@
 #include "raylib.h"
 #include "Tools/raygui.h"
 #include "Automatas/nfa.h"
+#include "Renderer/renderer.h"
 
 extern "C"{
 #include "Tools/tinyfiledialogs.h"
 }
 
 #define WINDOW_MAIN_TITLE "NFA Travers Steps"
-#define WINDOW_MAIN_WIDTH 900
+#define WINDOW_MAIN_WIDTH 1920
 #define WINDOW_AUTOMATA_WIDTH GetMonitorWidth(0)
-#define WINDOW_MAIN_HEIGHT 600
+#define WINDOW_MAIN_HEIGHT 1080
 #define WINDOW_AUTOMATA_HEIGHT GetMonitorHeight(0)
 
 
@@ -24,10 +25,19 @@ int main() {
     initializeMainWindow();
 
     NFA nfa;
+    Renderer renderer;
 
     nfa.insertState("q0");
     nfa.insertState("q1");
     nfa.insertState("q2");
+    nfa.insertState("q3");
+    nfa.insertState("q4");
+    nfa.insertState("q5");
+    nfa.insertState("q6");
+    nfa.insertState("q7");
+    nfa.insertState("q8");
+    nfa.insertState("q9");
+    nfa.insertState("q10");
 
     nfa.initializeAlphabet('a');
     nfa.initializeAlphabet('b');
@@ -42,10 +52,17 @@ int main() {
     nfa.initializeTransitions("q0", dest2, 'b');
 
 
+    renderer.initializeVisualModel(nfa);
+
+
     while (!WindowShouldClose()) {
         BeginDrawing();
 
         ClearBackground(GRAY);
+
+        renderer.drawVisualModel();
+
+        DrawTriangle({100,200},{100,300},{200,100},BLACK);
 
         EndDrawing();
     }
@@ -59,6 +76,7 @@ int main() {
 void initializeMainWindow() {
     InitWindow(WINDOW_MAIN_WIDTH, WINDOW_MAIN_HEIGHT, WINDOW_MAIN_TITLE);
     SetTargetFPS(60);
+    ToggleFullscreen();
     ClearBackground(LIGHTGRAY);
 }
 

@@ -25,6 +25,8 @@ public :
 
     State* getState(const std::string &stateName);
 
+    std::unordered_map<std::string, std::shared_ptr<State>> const& getAllStates() const { return states; }
+
     void initializeAlphabet(const char &symbol);
     void initializeTransitions(const std::string &currentState ,
                                const std::vector<std::string> &destinationStates,

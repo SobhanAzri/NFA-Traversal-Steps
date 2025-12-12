@@ -18,7 +18,9 @@ public :
     void initTransition();
 
     void setStates(const std::shared_ptr<State> &currentState, const std::shared_ptr<State> &destinationState);
+
     void addSymbols(const char &symbol);
+    [[nodiscard]] inline std::vector<char> getSymbols() const {return symbols;}
 
 private :
 
