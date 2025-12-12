@@ -1,8 +1,8 @@
 #include <memory>
 
 #include "Automatas/nfa.h"
-#include "States/state.h"
-#include "Transitions/transition.h"
+#include "Automatas/state.h"
+#include "Automatas/transition.h"
 
 NFA::NFA(const std::string &filePath) {
     this->filePath = filePath;

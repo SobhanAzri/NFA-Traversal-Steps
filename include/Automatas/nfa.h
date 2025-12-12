@@ -9,7 +9,7 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
-#include "States/state.h"
+#include "state.h"
 
 
 class NFA {
@@ -24,6 +24,8 @@ public :
     void setFinalState(const std::string &stateName);
 
     State* getState(const std::string &stateName);
+
+    std::unordered_map<std::string, std::shared_ptr<State>> const& getAllStates() const { return states; }
 
     void initializeAlphabet(const char &symbol);
     void initializeTransitions(const std::string &currentState ,
