@@ -19,5 +19,15 @@ void Transition::addSymbols(const char &symbol) {
     symbols.push_back(symbol);
 }
 
+bool Transition::hasSymbol(const char &symbol) {
+
+    for (auto const& checkSymbol : symbols) {
+        if (symbol == checkSymbol)
+            return true;
+    }
+
+    return false;
+}
+
 
 

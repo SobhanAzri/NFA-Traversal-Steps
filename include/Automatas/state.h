@@ -33,6 +33,7 @@ public :
     std::unordered_map<std::string, std::shared_ptr<Transition>> const& getAllTransitions() const { return transitions; }
 
 
+    std::vector<std::shared_ptr<State>> getDestinationStates(char symbol) const;
     inline std::shared_ptr<State> getClassPtr() { return shared_from_this(); }
 
     /// * Graphical Section Functions * \\\

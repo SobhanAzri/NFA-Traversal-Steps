@@ -21,6 +21,9 @@ public :
 
     void addSymbols(const char &symbol);
     [[nodiscard]] inline std::vector<char> getSymbols() const {return symbols;}
+    bool hasSymbol(const char &symbol);
+
+    [[nodiscard]] std::shared_ptr<State> getDestinationState() const {return destinationState;}
 
 private :
 

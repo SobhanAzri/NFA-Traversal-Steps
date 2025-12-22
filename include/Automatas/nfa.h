@@ -11,6 +11,7 @@
 #include <vector>
 #include "state.h"
 
+struct EvaluationResult; // forward decleration of the desired structure
 
 class NFA {
 public :
@@ -24,6 +25,7 @@ public :
     void setFinalState(const std::string &stateName);
 
     State* getState(const std::string &stateName);
+    [[nodiscard]] inline std::shared_ptr<State> getInitialState() const {return InitialState;};
 
     std::unordered_map<std::string, std::shared_ptr<State>> const& getAllStates() const { return states; }
 
@@ -31,6 +33,8 @@ public :
     void initializeTransitions(const std::string &currentState ,
                                const std::vector<std::string> &destinationStates,
                                const char &symbol);
+
+    EvaluationResult evaluateAutomata(const std::string &inputString);
 
 protected:
     std::string filePath;

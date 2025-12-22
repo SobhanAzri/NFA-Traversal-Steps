@@ -2,7 +2,7 @@
 
 #include "Automatas/nfa.h"
 #include "Automatas/state.h"
-#include "Automatas/transition.h"
+#include "Automatas/evaluator.h"
 
 NFA::NFA(const std::string &filePath) {
     this->filePath = filePath;
@@ -47,5 +47,23 @@ void NFA::initializeTransitions(const std::string &currentState,
 
         if (currentStateIterator != states.end() || destinationStateIterator != states.end())
             states[currentState]->initializeTransition(states[destination], symbol);
+    }
+}
+
+EvaluationResult NFA::evaluateAutomata(const std::string &inputString) {
+    EvaluationResult result;
+
+    std::vector<std::shared_ptr<State>> currentStates;
+    currentStates.push_back(InitialState);
+
+    result.steps.push_back({'!',{getInitialState()->getStateName()}}); // adding initial state without a symbol
+
+    for (char symbol : inputString) {
+        std::vector<std::shared_ptr<State>> nextStates;
+
+        for (auto &state : currentStates) {
+            auto destinations = state->getDestinationStates(symbol);
+            nextStates.insert(nextStates.end(), destinations.begin(), destinations.end());
+        }
     }
 }

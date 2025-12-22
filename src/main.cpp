@@ -1,7 +1,7 @@
 #include <string>
 
 #include "raylib.h"
-#include "Tools/raygui.h"
+//#include "Tools/raygui.h"
 #include "Automatas/nfa.h"
 #include "Renderer/renderer.h"
 
@@ -60,7 +60,7 @@ int main() {
     while (!WindowShouldClose()) {
         BeginDrawing();
 
-        ClearBackground(GRAY);
+        ClearBackground(WHITE);
 
         renderer.drawVisualModel();
 
