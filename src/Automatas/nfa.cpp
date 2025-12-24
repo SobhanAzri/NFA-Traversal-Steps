@@ -50,7 +50,7 @@ void NFA::initializeTransitions(const std::string &currentState,
     }
 }
 
-EvaluationResult NFA::evaluateAutomata(const std::string &inputString) {
+bool NFA::evaluateAutomata(const std::string &inputString) {
     EvaluationResult result;
 
     std::vector<std::shared_ptr<State>> currentStates;

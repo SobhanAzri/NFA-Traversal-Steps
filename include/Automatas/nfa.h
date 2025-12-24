@@ -5,6 +5,7 @@
 #ifndef NFA_TRAVERSAL_STEPS_NFA_H
 #define NFA_TRAVERSAL_STEPS_NFA_H
 
+#include <iostream>
 #include <memory>
 #include <string>
 #include <unordered_map>
@@ -34,7 +35,7 @@ public :
                                const std::vector<std::string> &destinationStates,
                                const char &symbol);
 
-    EvaluationResult evaluateAutomata(const std::string &inputString);
+    bool evaluateAutomata(const std::string &inputString);
 
 protected:
     std::string filePath;

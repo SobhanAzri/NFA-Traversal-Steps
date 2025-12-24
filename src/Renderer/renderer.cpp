@@ -126,10 +126,16 @@ void Renderer::drawVisualModel() {
 
         std::string symbols(iterator.symbols.begin() , iterator.symbols.end());
 
-        DrawText(symbols.data(),
-                 (visualStates[iterator.currentState].position.x + visualStates[iterator.destinationState].position.x) /2 + 5,
-                 (visualStates[iterator.currentState].position.y + visualStates[iterator.destinationState].position.y) /2 + 5,
-                 30,
-                 BLACK);
+        // DrawText(symbols.data(),
+        //          (visualStates[iterator.currentState].position.x + visualStates[iterator.destinationState].position.x) /2 + 5,
+        //          (visualStates[iterator.currentState].position.y + visualStates[iterator.destinationState].position.y) /2 + 5,
+        //          30,
+        //          BLACK);
+
+        // GuiDrawText(symbols.data(),
+        //          {(visualStates[iterator.currentState].position.x + visualStates[iterator.destinationState].position.x) /2 + 5,
+        //          (visualStates[iterator.currentState].position.y + visualStates[iterator.destinationState].position.y) /2 + 5},
+        //          1,
+        //          BLACK);
     }
 }
