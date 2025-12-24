@@ -2,10 +2,9 @@
 #include "raylib.h"
 #include "Automatas/nfa.h"
 #include "Renderer/renderer.h"
-
-extern "C"{
 #include "Tools/tinyfiledialogs.h"
 
+extern "C"{
 #define RAYGUI_NO_ICONS
 #define RAYGUI_IMPLEMENTATION
 #include "Tools/raygui.h"
