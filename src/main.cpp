@@ -27,7 +27,7 @@ void initializeTextField(char userInput[], bool &canEdit);
 int main() {
     initializeMainWindow();
 
-    Font font = LoadFontEx("resources/Roboto-Regular.ttf", 64, nullptr, 0);
+    Font font = LoadFontEx("resources/Roboto.ttf", 64, nullptr, 0);
 
     GuiSetFont(font);
     GuiSetStyle(DEFAULT, TEXT_SIZE, 30);
@@ -74,7 +74,7 @@ int main() {
 
         renderer.drawVisualModel();
 
-        DrawTextEx(font, GetWorkingDirectory(), {200 , 200}, 32, 1, BLACK);
+        DrawTextEx(font, inputString, {200 , 200}, 32, 1, BLACK);
 
         initializeTextField(inputString, editMode);
 
