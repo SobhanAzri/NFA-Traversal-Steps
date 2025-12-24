@@ -1,12 +1,14 @@
 #include <string>
-
 #include "raylib.h"
-#include "Tools/raygui.h"
 #include "Automatas/nfa.h"
 #include "Renderer/renderer.h"
 
 extern "C"{
 #include "Tools/tinyfiledialogs.h"
+
+#define RAYGUI_NO_ICONS
+#define RAYGUI_IMPLEMENTATION
+#include "Tools/raygui.h"
 }
 
 #define WINDOW_MAIN_TITLE "NFA Travers Steps"
@@ -20,9 +22,18 @@ char* filePath;
 char* filePatterns[] = {"*.txt"};
 
 void initializeMainWindow();
+void initializeTextField(char userInput[], bool &canEdit);
 
 int main() {
     initializeMainWindow();
+
+    Font font = LoadFontEx("resources/Roboto.ttf", 64, nullptr, 0);
+
+    GuiSetFont(font);
+    GuiSetStyle(DEFAULT, TEXT_SIZE, 30);
+
+    char inputString[] = "";
+    bool editMode = false;
 
     NFA nfa;
     Renderer renderer;
@@ -31,13 +42,13 @@ int main() {
     nfa.insertState("q1");
     nfa.insertState("q2");
     nfa.insertState("q3");
-//    nfa.insertState("q4");
-//    nfa.insertState("q5");
-//    nfa.insertState("q6");
-//    nfa.insertState("q7");
-//    nfa.insertState("q8");
-//    nfa.insertState("q9");
-//    nfa.insertState("q10");
+    // nfa.insertState("q4");
+    // nfa.insertState("q5");
+    // nfa.insertState("q6");
+    // nfa.insertState("q7");
+    // nfa.insertState("q8");
+    // nfa.insertState("q9");
+    // nfa.insertState("q10");
 
     nfa.initializeAlphabet('a');
     nfa.initializeAlphabet('b');
@@ -59,15 +70,18 @@ int main() {
 
     while (!WindowShouldClose()) {
         BeginDrawing();
-
-        ClearBackground(GRAY);
+        ClearBackground(WHITE);
 
         renderer.drawVisualModel();
+
+        DrawTextEx(font, inputString, {200 , 200}, 32, 1, BLACK);
+
+        initializeTextField(inputString, editMode);
 
         EndDrawing();
     }
 
-
+    UnloadFont(font);
     CloseWindow();
     return 0;
 
@@ -80,26 +94,11 @@ void initializeMainWindow() {
     ClearBackground(LIGHTGRAY);
 }
 
+void initializeTextField(char userInput[], bool &canEdit) {
+    Rectangle rect = {static_cast<float>(25),
+                    static_cast<float>(WINDOW_AUTOMATA_HEIGHT - 60),
+                        350, 40,};
 
-
-
-
-
-
-
-
-/*if (GuiButton(Rectangle{static_cast<int>(WINDOW_MAIN_WIDTH / 2 - 75),static_cast<int>(WINDOW_MAIN_HEIGHT / 2 - 15), 150 , 30},
-                  GuiIconText(ICON_FILE_OPEN, "Open File...")))
-        {
-            filePath = tinyfd_openFileDialog(NULL,
-                                             "~/"
-                                             ,0,
-                                             filePatterns,
-                                             "Text Files",
-                                             false);
-        }
-
-        GuiLabel(Rectangle{100,100, WINDOW_MAIN_WIDTH , 30},filePath);
-
-        EndDrawing();
-        */
+    if (GuiTextBox(rect, userInput, 64, canEdit))
+        canEdit = !canEdit;
+}

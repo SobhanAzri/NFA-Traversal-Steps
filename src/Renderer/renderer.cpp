@@ -4,13 +4,18 @@
 
 #include "Renderer/renderer.h"
 #include "Automatas/nfa.h"
+#include "Tools/raygui.h"
+
+#define RADIUS 100
 
 void drawArrow(const Vector2 &start, const Vector2 &end)
 {
-    DrawLineEx(start, end, 3, BLACK);
+    // adding the state circles offset radius to the end
 
-    float dx = end.x - start.x;
-    float dy = end.y - start.y;
+
+
+    float dx = (end.x - start.x);
+    float dy = (end.y - start.y);
 
     float angle = atan2f(dy, dx);
 
@@ -24,7 +29,8 @@ void drawArrow(const Vector2 &start, const Vector2 &end)
             end.y - 20 * sinf(angle + .5)
     };
 
-    DrawLineEx(end, left, 3,BLACK);
+    DrawLineEx(start, end, 2, BLACK);
+    DrawLineEx(end, left, 2,BLACK);
     DrawLineEx(end, right, 2,BLACK);
 }
 
@@ -32,7 +38,7 @@ void Renderer::initializeVisualModel(const NFA &nfa) {
 
     auto *allStates = &nfa.getAllStates();
     stateCount = static_cast<int>(allStates->size());
-    int iterator = 0;
+    int iterator = stateCount - 1;
 
     computePositions();
 
@@ -43,10 +49,10 @@ void Renderer::initializeVisualModel(const NFA &nfa) {
         properties.name = name;
         properties.bIsInitial = statePointer->isInitialState();
         properties.bIsFinal = statePointer->isFinalState();
-        properties.radius = 100;
+        properties.radius = RADIUS;
         properties.position = statePositions[iterator];
 
-        iterator++;
+        iterator--;
         visualStates[name] = properties;
     }
 
@@ -104,9 +110,10 @@ void Renderer::drawVisualModel() {
         DrawCircleLinesV(stateProperty.position,stateProperty.radius,BLACK);
 
         if (stateProperty.bIsFinal)
-            DrawCircleLinesV(stateProperty.position,stateProperty.radius - 25,BLACK);
+            DrawCircleLinesV(stateProperty.position,(stateProperty.radius * .8f),BLACK);
 
        DrawText(stateProperty.name.data(),stateProperty.position.x,stateProperty.position.y,30, BLACK);
+
     }
 
     // drawing transitions
@@ -118,10 +125,17 @@ void Renderer::drawVisualModel() {
 
 
         std::string symbols(iterator.symbols.begin() , iterator.symbols.end());
-        DrawText(symbols.data(),
-                 (visualStates[iterator.currentState].position.x + visualStates[iterator.destinationState].position.x) /2,
-                 (visualStates[iterator.currentState].position.y + visualStates[iterator.destinationState].position.y) /2,
-                 30,
-                 BLACK);
+
+        // DrawText(symbols.data(),
+        //          (visualStates[iterator.currentState].position.x + visualStates[iterator.destinationState].position.x) /2 + 5,
+        //          (visualStates[iterator.currentState].position.y + visualStates[iterator.destinationState].position.y) /2 + 5,
+        //          30,
+        //          BLACK);
+
+        // GuiDrawText(symbols.data(),
+        //          {(visualStates[iterator.currentState].position.x + visualStates[iterator.destinationState].position.x) /2 + 5,
+        //          (visualStates[iterator.currentState].position.y + visualStates[iterator.destinationState].position.y) /2 + 5},
+        //          1,
+        //          BLACK);
     }
 }

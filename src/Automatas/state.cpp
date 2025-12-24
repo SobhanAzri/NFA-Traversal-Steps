@@ -21,3 +21,14 @@ void State::initializeTransition(std::shared_ptr<State> destinationState, const 
         transitions.insert({destinationName, transition});
     }
 }
+
+std::vector<std::shared_ptr<State>> State::getDestinationStates(char symbol) const {
+    std::vector<std::shared_ptr<State>> result;
+
+    for (auto const& transition : transitions) {
+        if (transition.second->hasSymbol(symbol))
+            result.push_back(transition.second->getDestinationState());
+    }
+
+    return result;
+}
