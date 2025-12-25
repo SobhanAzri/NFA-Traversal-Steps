@@ -66,4 +66,6 @@ bool NFA::evaluateAutomata(const std::string &inputString) {
             nextStates.insert(nextStates.end(), destinations.begin(), destinations.end());
         }
     }
+
+    return false;
 }

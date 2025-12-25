@@ -32,6 +32,8 @@ int main() {
     GuiSetStyle(DEFAULT, TEXT_SIZE, 30);
 
     char inputString[] = "";
+    bool stringAccepted = false;
+    bool showStringState = false;
     bool editMode = false;
 
     NFA nfa;
@@ -74,6 +76,18 @@ int main() {
         renderer.drawVisualModel();
 
         DrawTextEx(font, inputString, {200 , 200}, 32, 1, BLACK);
+
+        if (GuiButton({400,1020,100,40},"CHECK")) {
+            stringAccepted = nfa.evaluateAutomata(inputString);
+            showStringState = true;
+        }
+
+        if (showStringState) {
+            if (stringAccepted)
+                DrawTextEx(font, "YES!", {1900 , 1080}, 32, 1, GREEN);
+            else
+                DrawTextEx(font, "NO!", {550 , 1025}, 32, 1, RED);
+        }
 
         initializeTextField(inputString, editMode);
 
