@@ -6,7 +6,8 @@
 #include "Automatas/nfa.h"
 #include "Tools/raygui.h"
 
-#define RADIUS 100
+#define RADIUS 80
+
 
 void drawArrow(const Vector2 &start, const Vector2 &end)
 {
@@ -101,7 +102,8 @@ void Renderer::computePositions() {
 
 void Renderer::drawVisualModel() {
 
-    // computing grid for putting states
+
+    Font font = LoadFontEx("resources/Roboto.ttf",32,nullptr,0);
 
 
     // drawing states
@@ -112,7 +114,9 @@ void Renderer::drawVisualModel() {
         if (stateProperty.bIsFinal)
             DrawCircleLinesV(stateProperty.position,(stateProperty.radius * .8f),BLACK);
 
-       DrawText(stateProperty.name.data(),stateProperty.position.x,stateProperty.position.y,30, BLACK);
+       DrawTextEx(font,stateProperty.name.data(),
+           {stateProperty.position.x,stateProperty.position.y},
+           32,1, BLACK);
 
     }
 
@@ -124,18 +128,17 @@ void Renderer::drawVisualModel() {
                   visualStates[iterator.destinationState].position);
 
 
-        std::string symbols(iterator.symbols.begin() , iterator.symbols.end());
+        std::string symbols = "{ ";
+        for (auto s : iterator.symbols) {
+                symbols += s;
+                symbols += ",";
+        }
+        symbols.replace(symbols.length() - 1,1," }");
 
-        // DrawText(symbols.data(),
-        //          (visualStates[iterator.currentState].position.x + visualStates[iterator.destinationState].position.x) /2 + 5,
-        //          (visualStates[iterator.currentState].position.y + visualStates[iterator.destinationState].position.y) /2 + 5,
-        //          30,
-        //          BLACK);
-
-        // GuiDrawText(symbols.data(),
-        //          {(visualStates[iterator.currentState].position.x + visualStates[iterator.destinationState].position.x) /2 + 5,
-        //          (visualStates[iterator.currentState].position.y + visualStates[iterator.destinationState].position.y) /2 + 5},
-        //          1,
-        //          BLACK);
+        // drawing symbols of a transition
+        DrawTextEx(font, symbols.data(),
+                 {(visualStates[iterator.currentState].position.x + visualStates[iterator.destinationState].position.x) /2 + 5,
+                 (visualStates[iterator.currentState].position.y + visualStates[iterator.destinationState].position.y) /2 + 5},
+                 32, 1, BLACK);
     }
 }

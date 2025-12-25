@@ -27,6 +27,7 @@ public :
 
     State* getState(const std::string &stateName);
     [[nodiscard]] inline std::shared_ptr<State> getInitialState() const {return InitialState;};
+    //inline bool isInitialStateFinal() const { return InitialState->isFinalState(); }
 
     std::unordered_map<std::string, std::shared_ptr<State>> const& getAllStates() const { return states; }
 

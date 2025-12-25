@@ -55,15 +55,19 @@ int main() {
     nfa.initializeAlphabet('b');
 
     nfa.setInitialState("q0");
+    nfa.setFinalState("q0");
     nfa.setFinalState("q2");
 
+    std::vector<std::string> dest0 = {"q0"};
     std::vector<std::string> dest1 = {"q1"};
-    std::vector<std::string> dest2 = {"q1", "q2"};
+    std::vector<std::string> dest2 = { "q2"};
     std::vector<std::string> dest3 = {"q3"};
 
-    nfa.initializeTransitions("q0", dest1, 'a');
+    nfa.initializeTransitions("q1", dest0, 'a');
     nfa.initializeTransitions("q0", dest2, 'b');
-    nfa.initializeTransitions("q0", dest3, '!');
+    nfa.initializeTransitions("q0", dest3, 'a');
+    nfa.initializeTransitions("q3", dest1, 'a');
+
 
 
     renderer.initializeVisualModel(nfa);
@@ -75,18 +79,23 @@ int main() {
 
         renderer.drawVisualModel();
 
-        DrawTextEx(font, inputString, {200 , 200}, 32, 1, BLACK);
-
         if (GuiButton({400,1020,100,40},"CHECK")) {
-            stringAccepted = nfa.evaluateAutomata(inputString);
-            showStringState = true;
+            // if string is empty and our initial state is final then dont calculate anything
+            if (nfa.getInitialState()->isFinalState() && inputString[0] == '\0') {
+                stringAccepted = true;
+                showStringState = true;
+            }
+            else {
+                showStringState = true;
+                stringAccepted = nfa.evaluateAutomata(inputString);
+            }
         }
 
         if (showStringState) {
             if (stringAccepted)
-                DrawTextEx(font, "YES!", {1900 , 1080}, 32, 1, GREEN);
+                DrawTextEx(font, "YES, this automata accepts this string!", {550 , 1025}, 32, 1, GREEN);
             else
-                DrawTextEx(font, "NO!", {550 , 1025}, 32, 1, RED);
+                DrawTextEx(font, "NO, this string is not accepted by this automata!", {550 , 1025}, 32, 1, RED);
         }
 
         initializeTextField(inputString, editMode);
