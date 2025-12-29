@@ -5,11 +5,9 @@
 #include "Tools/tinyfiledialogs.h"
 #include "Tools/fileLoader.h"
 
-extern "C"{
 #define RAYGUI_NO_ICONS
 #define RAYGUI_IMPLEMENTATION
 #include "Tools/raygui.h"
-}
 
 #define WINDOW_MAIN_TITLE "NFA Travers Steps"
 #define WINDOW_MAIN_WIDTH 1920
@@ -83,7 +81,9 @@ int main() {
 
         renderer.drawVisualModel();
 
-        if (GuiButton({400,1020,100,40},"CHECK")) {
+
+        // String Checker
+        if (GuiButton({400,1000,100,40},"CHECK")) {
             // if string is empty and our initial state is final then dont calculate anything
             if (nfa.getInitialState()->isFinalState() && inputString[0] == '\0') {
                 stringAccepted = true;
@@ -100,6 +100,22 @@ int main() {
                 DrawTextEx(font, "YES, this automata accepts this string!", {550 , 1025}, 32, 1, GREEN);
             else
                 DrawTextEx(font, "NO, this string is not accepted by this automata!", {550 , 1025}, 32, 1, RED);
+        }
+
+
+
+        // file loader button
+
+        if (GuiButton({25, static_cast<float>(WINDOW_AUTOMATA_HEIGHT - 35), 475, 30},
+            "Load NFA From a File"))
+        {
+            filePath = tinyfd_openFileDialog(
+            "Select file",
+            ".",
+            0,
+            filePatterns,
+           "Text Files",
+           0);
         }
 
         initializeTextField(inputString, editMode);
@@ -121,8 +137,8 @@ void initializeMainWindow() {
 }
 
 void initializeTextField(char userInput[], bool &canEdit) {
-    Rectangle rect = {static_cast<float>(25),
-                    static_cast<float>(WINDOW_AUTOMATA_HEIGHT - 60),
+    Rectangle rect = {25,
+                    static_cast<float>(WINDOW_AUTOMATA_HEIGHT - 80),
                         350, 40,};
 
     if (GuiTextBox(rect, userInput, 64, canEdit))

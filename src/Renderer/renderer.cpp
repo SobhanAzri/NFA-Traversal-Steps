@@ -109,12 +109,12 @@ void Renderer::drawVisualModel() {
     Font font = LoadFontEx("resources/Roboto.ttf",32,nullptr,0);
 
     // drawing Alphabet
-    std::string alphabetText = "Σ = { ";
+    std::string alphabetText = "Alphabet = { ";
     for (auto const &symbol : alphabet) {
         alphabetText += symbol;
         alphabetText += " , ";
     }
-    alphabetText.replace(alphabetText.length() - 2,1,"cd}");
+    alphabetText.replace(alphabetText.length() - 2,1,"}");
 
     DrawTextEx(font, alphabetText.data(), {12,12}, 32, 1, BLACK);
 
