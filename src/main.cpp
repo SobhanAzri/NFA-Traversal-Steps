@@ -5,7 +5,6 @@
 #include "Tools/tinyfiledialogs.h"
 #include "Tools/fileLoader.h"
 
-#define RAYGUI_NO_ICONS
 #define RAYGUI_IMPLEMENTATION
 #include "Tools/raygui.h"
 
@@ -14,7 +13,6 @@
 #define WINDOW_AUTOMATA_WIDTH GetMonitorWidth(0)
 #define WINDOW_MAIN_HEIGHT 1080
 #define WINDOW_AUTOMATA_HEIGHT GetMonitorHeight(0)
-
 
 char* filePath;
 char* filePatterns[] = {"*.txt"};
@@ -25,7 +23,7 @@ void initializeTextField(char userInput[], bool &canEdit);
 int main() {
     initializeMainWindow();
 
-    Font font = LoadFontEx("resources/Roboto.ttf", 64, nullptr, 0);
+    Font font = LoadFontEx("resources/DejaVuSans.ttf", 64, nullptr, 0);
 
     GuiSetFont(font);
     GuiSetStyle(DEFAULT, TEXT_SIZE, 30);

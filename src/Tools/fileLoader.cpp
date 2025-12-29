@@ -5,10 +5,11 @@
 #include "Tools/fileLoader.h"
 #include <fstream>
 #include <sstream>
-
 #include "Automatas/nfa.h"
 
-bool FileLoader::loadNfa(NFA &nfa, const char *filePath) {
+#define EPSILON '^'
+
+void FileLoader::loadNfa(NFA &nfa, const char *filePath) {
     std::ifstream file(filePath);
 
     if (file.is_open())
@@ -16,30 +17,35 @@ bool FileLoader::loadNfa(NFA &nfa, const char *filePath) {
         std::string line;
         bool isParsingTransitions = false;
 
+        nfa.initializeAlphabet('235');
+
         while (std::getline(file,line))
         {
+            std::istringstream lineStream(line.substr(line.find(':') + 1));
+            std::string streamIterator;
+
             if (line.empty() || line[0] == '#')
                 continue;
 
             if (line.starts_with("states:") || line.starts_with("states :")) {
-                std::istringstream stateName(line.substr(line.find(':') + 1));
-                std::string name;
 
-                while (stateName >> name)
-                    nfa.insertState(name);
+                while (lineStream >> streamIterator)
+                    nfa.insertState(streamIterator);
             }
             else if (line.starts_with("alphabet:") || line.starts_with("alphabet :")) {
-                std::istringstream alphabet(line.substr(line.find(':') + 1));
-                std::string symbol;
 
-                while (alphabet >> symbol)
-                    nfa.initializeAlphabet(symbol);
+                while (lineStream >> streamIterator)
+                    nfa.initializeAlphabet(streamIterator[0]);
             }
             else if (line.starts_with("start:") || line.starts_with("start :")) {
 
+                while (lineStream >> streamIterator)
+                    nfa.setInitialState(streamIterator);
             }
             else if (line.starts_with("final:") || line.starts_with("final :")) {
 
+                while (lineStream >> streamIterator)
+                    nfa.setFinalState(streamIterator);
             }
             else if (line.starts_with("transitions:") || line.starts_with("transitions :"))
             {
@@ -47,13 +53,20 @@ bool FileLoader::loadNfa(NFA &nfa, const char *filePath) {
             }
             else if (isParsingTransitions)
             {
+                std::string from;
+                std::string symbol;
+                std::vector<std::string> destinations;
 
+                lineStream >> from >> symbol;
+
+                while (lineStream >> streamIterator)
+                    destinations.push_back(streamIterator);
+
+                if (symbol == "λ")
+                    nfa.initializeTransitions(from,destinations,EPSILON);
+                else
+                    nfa.initializeTransitions(from,destinations,symbol[0]);
             }
         }
-        return true;
-    }
-    else
-    {
-        return false;
     }
 }

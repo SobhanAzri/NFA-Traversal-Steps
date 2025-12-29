@@ -32,7 +32,7 @@ State* NFA::getState(const std::string &stateName) {
 }
 
 
-void NFA::initializeAlphabet(const std::string &symbol) {
+void NFA::initializeAlphabet(const char &symbol) {
     alphabet.push_back(symbol);
 }
 
@@ -58,7 +58,7 @@ bool NFA::evaluateAutomata(const std::string &inputString) {
 
     result.steps.push_back({'!',{getInitialState()->getStateName()}}); // adding initial state without a symbol
 
-    for (char symbol : inputString) {
+    for (auto symbol : inputString) {
         std::vector<std::shared_ptr<State>> nextStates;
 
         for (auto &state : currentStates) {

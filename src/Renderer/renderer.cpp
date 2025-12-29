@@ -7,7 +7,8 @@
 #include "Tools/raygui.h"
 
 #define RADIUS 80
-
+#define EPSILON '^'
+int codepoints[] = { 0x03BB, 0x03C3 };
 
 void drawArrow(const Vector2 &start, const Vector2 &end)
 {
@@ -106,7 +107,7 @@ void Renderer::computePositions() {
 void Renderer::drawVisualModel() {
 
 
-    Font font = LoadFontEx("resources/Roboto.ttf",32,nullptr,0);
+    Font font = LoadFont("resources/DejaVuSans.ttf");
 
     // drawing Alphabet
     std::string alphabetText = "Alphabet = { ";
@@ -142,9 +143,13 @@ void Renderer::drawVisualModel() {
 
 
         std::string symbols = "{ ";
-        for (auto const s : iterator.symbols) {
-                symbols += s;
-                symbols += ",";
+        for (auto const character : iterator.symbols) {
+
+            if (character == EPSILON)
+                symbols += "λ";
+            else
+                symbols += character;
+            symbols += ",";
         }
         symbols.replace(symbols.length() - 1,1," }");
 

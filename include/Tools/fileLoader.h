@@ -8,6 +8,6 @@
 class NFA;
 class FileLoader {
 public :
-    static bool loadNfa(NFA &nfa,const char* filePath);
+    static void loadNfa(NFA &nfa,const char* filePath);
 };
 #endif //NFA_TRAVERSAL_STEPS_FILELOADER_H
