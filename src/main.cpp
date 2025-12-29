@@ -38,7 +38,7 @@ int main() {
     NFA nfa;
     Renderer renderer;
 
-    FileLoader::loadNfa(nfa,"/home/nryxenon/Documents/Projects/C++/NFA Traversal Steps/file.txt");
+    FileLoader::loadNfa(nfa,"");
 
     // nfa.insertState("q0");
     // nfa.insertState("q1");
@@ -68,11 +68,6 @@ int main() {
     // nfa.initializeTransitions("q0", dest2, 'b');
     // nfa.initializeTransitions("q0", dest3, 'a');
     // nfa.initializeTransitions("q3", dest1, 'a');
-
-
-
-
-    renderer.initializeVisualModel(nfa);
 
 
     while (!WindowShouldClose()) {
@@ -106,7 +101,7 @@ int main() {
 
         // file loader button
 
-        if (GuiButton({25, static_cast<float>(WINDOW_AUTOMATA_HEIGHT - 35), 475, 30},
+        if (GuiButton({25, static_cast<float>(WINDOW_AUTOMATA_HEIGHT - 35), 475 , 30},
             "Load NFA From a File"))
         {
             filePath = tinyfd_openFileDialog(
@@ -116,6 +111,9 @@ int main() {
             filePatterns,
            "Text Files",
            0);
+
+            FileLoader::loadNfa(nfa,filePath);
+            renderer.initializeVisualModel(nfa);
         }
 
         initializeTextField(inputString, editMode);
