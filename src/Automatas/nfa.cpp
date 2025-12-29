@@ -32,7 +32,7 @@ State* NFA::getState(const std::string &stateName) {
 }
 
 
-void NFA::initializeAlphabet(const char &symbol) {
+void NFA::initializeAlphabet(const std::string &symbol) {
     alphabet.push_back(symbol);
 }
 

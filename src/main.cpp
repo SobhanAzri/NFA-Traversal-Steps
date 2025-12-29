@@ -3,6 +3,7 @@
 #include "Automatas/nfa.h"
 #include "Renderer/renderer.h"
 #include "Tools/tinyfiledialogs.h"
+#include "Tools/fileLoader.h"
 
 extern "C"{
 #define RAYGUI_NO_ICONS
@@ -39,10 +40,12 @@ int main() {
     NFA nfa;
     Renderer renderer;
 
-    nfa.insertState("q0");
-    nfa.insertState("q1");
-    nfa.insertState("q2");
-    nfa.insertState("q3");
+    FileLoader::loadNfa(nfa,"/home/nryxenon/Documents/Projects/C++/NFA Traversal Steps/file.txt");
+
+    // nfa.insertState("q0");
+    // nfa.insertState("q1");
+    // nfa.insertState("q2");
+    // nfa.insertState("q3");
     // nfa.insertState("q4");
     // nfa.insertState("q5");
     // nfa.insertState("q6");
@@ -50,23 +53,24 @@ int main() {
     // nfa.insertState("q8");
     // nfa.insertState("q9");
     // nfa.insertState("q10");
+    //
+    // nfa.initializeAlphabet('a');
+    // nfa.initializeAlphabet('b');
+    //
+    // nfa.setInitialState("q0");
+    // nfa.setFinalState("q0");
+    // nfa.setFinalState("q2");
+    //
+    // std::vector<std::string> dest0 = {"q0"};
+    // std::vector<std::string> dest1 = {"q1"};
+    // std::vector<std::string> dest2 = { "q2"};
+    // std::vector<std::string> dest3 = {"q3"};
+    //
+    // nfa.initializeTransitions("q1", dest0, 'a');
+    // nfa.initializeTransitions("q0", dest2, 'b');
+    // nfa.initializeTransitions("q0", dest3, 'a');
+    // nfa.initializeTransitions("q3", dest1, 'a');
 
-    nfa.initializeAlphabet('a');
-    nfa.initializeAlphabet('b');
-
-    nfa.setInitialState("q0");
-    nfa.setFinalState("q0");
-    nfa.setFinalState("q2");
-
-    std::vector<std::string> dest0 = {"q0"};
-    std::vector<std::string> dest1 = {"q1"};
-    std::vector<std::string> dest2 = { "q2"};
-    std::vector<std::string> dest3 = {"q3"};
-
-    nfa.initializeTransitions("q1", dest0, 'a');
-    nfa.initializeTransitions("q0", dest2, 'b');
-    nfa.initializeTransitions("q0", dest3, 'a');
-    nfa.initializeTransitions("q3", dest1, 'a');
 
 
 

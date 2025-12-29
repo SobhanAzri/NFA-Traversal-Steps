@@ -31,7 +31,9 @@ public :
 
     std::unordered_map<std::string, std::shared_ptr<State>> const& getAllStates() const { return states; }
 
-    void initializeAlphabet(const char &symbol);
+    void initializeAlphabet(const std::string &symbol);
+    std::vector<std::string> getAlphabet() const {return alphabet;}
+
     void initializeTransitions(const std::string &currentState ,
                                const std::vector<std::string> &destinationStates,
                                const char &symbol);
@@ -44,7 +46,7 @@ protected:
    std::shared_ptr<State> InitialState;
    std::unordered_map<std::string, std::shared_ptr<State>> states;  // maybe i will change it from unique_ptr to shared_ptr later
 
-    std::vector<char> alphabet;
+    std::vector<std::string> alphabet;
 };
 
 #endif //NFA_TRAVERSAL_STEPS_NFA_H

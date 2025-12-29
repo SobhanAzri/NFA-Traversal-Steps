@@ -41,6 +41,7 @@ public :
 
 protected :
     int stateCount = 0;
+    std::vector<std::string> alphabet;
 
     std::unordered_map<std::string ,StateProperties> visualStates;
     std::vector<TransitionProperties> visualTransitions;

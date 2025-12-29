@@ -43,6 +43,9 @@ void Renderer::initializeVisualModel(const NFA &nfa) {
 
     computePositions();
 
+    // first Initialize Alphabet
+    alphabet = nfa.getAlphabet();
+
     // first loop for initializing State Properties
     for (auto &[name, statePointer] : *allStates)
     {
@@ -105,6 +108,16 @@ void Renderer::drawVisualModel() {
 
     Font font = LoadFontEx("resources/Roboto.ttf",32,nullptr,0);
 
+    // drawing Alphabet
+    std::string alphabetText = "Σ = { ";
+    for (auto const &symbol : alphabet) {
+        alphabetText += symbol;
+        alphabetText += " , ";
+    }
+    alphabetText.replace(alphabetText.length() - 2,1,"cd}");
+
+    DrawTextEx(font, alphabetText.data(), {12,12}, 32, 1, BLACK);
+
 
     // drawing states
     for (auto &[name, stateProperty] : visualStates)
@@ -129,7 +142,7 @@ void Renderer::drawVisualModel() {
 
 
         std::string symbols = "{ ";
-        for (auto s : iterator.symbols) {
+        for (auto const s : iterator.symbols) {
                 symbols += s;
                 symbols += ",";
         }
