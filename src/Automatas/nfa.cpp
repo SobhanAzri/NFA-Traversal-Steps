@@ -65,5 +65,25 @@ bool NFA::evaluateAutomata(const std::string &inputString) {
             auto destinations = state->getDestinationStates(symbol);
             nextStates.insert(nextStates.end(), destinations.begin(), destinations.end());
         }
+
+        if (nextStates.empty())
+            return false;
+
+        currentStates = nextStates;
+
+        TraversalStep step;
+        step.symbol = symbol;
+
+        for (auto &state : currentStates)
+            step.states.push_back(state->getStateName());
+
+        result.steps.push_back(step);
     }
+
+    for (auto &state : currentStates)
+        if (state->isFinalState()) {
+            return true;
+        }
+
+    return false;
 }
