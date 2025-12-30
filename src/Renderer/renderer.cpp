@@ -9,7 +9,7 @@
 #define RADIUS 80
 #define EPSILON '^'
 
-void drawArrow(const Vector2 &start, const Vector2 &end)
+void drawArrow(const Vector2 &start, const Vector2 &end, const bool &isLoop)
 {
     // adding the state circles offset radius to the end
 
@@ -20,19 +20,27 @@ void drawArrow(const Vector2 &start, const Vector2 &end)
 
     float angle = atan2f(dy, dx);
 
+    int length = sqrtf(dx * dx + dy * dy);
+
+    Vector2 direction = Vector2(dx/length,dy/length);
+
+    Vector2 newStart = {start.x + direction.x * RADIUS,start.y + direction.y * RADIUS};
+    Vector2 newEnd = {end.x - direction.x * RADIUS,end.y - direction.y * RADIUS};
+
     Vector2 left = {
-            end.x - 20 * cosf(angle - .5f),
-            end.y - 20 * sinf(angle - .5)
+            newEnd.x - 20 * cosf(angle - .5f),
+            newEnd.y - 20 * sinf(angle - .5)
     };
 
     Vector2 right = {
-            end.x - 20 * cosf(angle + .5f),
-            end.y - 20 * sinf(angle + .5)
+            newEnd.x - 20 * cosf(angle + .5f),
+            newEnd.y - 20 * sinf(angle + .5)
     };
 
-    DrawLineEx(start, end, 2, BLACK);
-    DrawLineEx(end, left, 2,BLACK);
-    DrawLineEx(end, right, 2,BLACK);
+
+    DrawLineEx(newStart, newEnd, 2, BLACK);
+    DrawLineEx(newEnd, left, 2,BLACK);
+    DrawLineEx(newEnd, right, 2,BLACK);
 }
 
 void Renderer::initializeVisualModel(const NFA &nfa) {
@@ -125,8 +133,8 @@ void Renderer::drawVisualModel() {
         DrawCircleLinesV(stateProperty.position,stateProperty.radius,BLACK);
 
         if (stateProperty.bIsInitial)
-            drawArrow({stateProperty.position.x - RADIUS - 70, stateProperty.position.y},
-                {stateProperty.position.x - RADIUS,stateProperty.position.y});
+            drawArrow({stateProperty.position.x - RADIUS - 150, stateProperty.position.y},
+                {stateProperty.position.x,stateProperty.position.y},false);
         if (stateProperty.bIsFinal)
             DrawCircleLinesV(stateProperty.position,(stateProperty.radius * .8f),BLACK);
 
@@ -140,9 +148,15 @@ void Renderer::drawVisualModel() {
 
     for (const auto &iterator : visualTransitions)
     {
-        drawArrow(visualStates[iterator.currentState].position,
-                  visualStates[iterator.destinationState].position);
+        bool drawLoopArrow ;
 
+        if (iterator.currentState == iterator.destinationState)
+            drawLoopArrow = true;
+        else
+            drawLoopArrow = false;
+
+        drawArrow(visualStates[iterator.currentState].position,
+                 visualStates[iterator.destinationState].position, drawLoopArrow);
 
         std::string symbols = "{ ";
         for (auto const character : iterator.symbols) {
