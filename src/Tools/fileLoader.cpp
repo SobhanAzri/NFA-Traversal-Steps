@@ -17,7 +17,7 @@ void FileLoader::loadNfa(NFA &nfa, const char *filePath) {
         std::string line;
         bool isParsingTransitions = false;
 
-        nfa.initializeAlphabet(EPSILON);
+        nfa.initializeAlphabet(EPSILON); // adding epsilon to alphabets
 
         while (std::getline(file,line))
         {

@@ -85,14 +85,9 @@ int main() {
         // String Checker
         if (GuiButton({400,1000,100,40},"CHECK")) {
             // if string is empty and our initial state is final then dont calculate anything
-            if (nfa.getInitialState()->isFinalState() && inputString[0] == '\0') {
-                stringAccepted = true;
-                showStringState = true;
-            }
-            else {
+
                 showStringState = true;
                 stringAccepted = nfa.evaluateAutomata(inputString);
-            }
         }
 
         if (showStringState) {

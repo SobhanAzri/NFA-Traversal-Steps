@@ -5,6 +5,8 @@
 #include "Automatas/state.h"
 #include "Automatas/transition.h"
 
+#define EPSILON '^'
+
 void State::initializeTransition(std::shared_ptr<State> destinationState, const char &symbol) {
     const std::string &destinationName = destinationState->getStateName();
     auto iterator = transitions.find(destinationName);
@@ -26,7 +28,14 @@ std::vector<std::shared_ptr<State>> State::getDestinationStates(char symbol) con
     std::vector<std::shared_ptr<State>> result;
 
     for (auto const& transition : transitions) {
-        if (transition.second->hasSymbol(symbol))
+        auto const &destinationStates = transition.second->getDestinationState();
+        if (transition.second->hasSymbol(EPSILON))
+        {
+            result.push_back(destinationStates);
+            for (auto const& states : destinationStates->getDestinationStates(symbol))
+                result.push_back(states);
+        }
+        else if (transition.second->hasSymbol(symbol))
             result.push_back(transition.second->getDestinationState());
     }
 
