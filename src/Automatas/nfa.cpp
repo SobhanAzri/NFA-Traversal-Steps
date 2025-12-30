@@ -4,6 +4,8 @@
 #include "Automatas/state.h"
 #include "Automatas/evaluator.h"
 
+#define EPSILON '^'
+
 NFA::NFA(const std::string &filePath) {
     this->filePath = filePath;
 }
@@ -51,6 +53,12 @@ void NFA::initializeTransitions(const std::string &currentState,
 }
 
 bool NFA::evaluateAutomata(const std::string &inputString) {
+
+    const int inputSize = static_cast<int>(inputString.size());
+    char symbol = inputString[0];
+    int stringIterator = 0;
+    bool canIterateString = true;
+
     EvaluationResult result;
 
     std::vector<std::shared_ptr<State>> currentStates;
@@ -58,12 +66,23 @@ bool NFA::evaluateAutomata(const std::string &inputString) {
 
     result.steps.push_back({'!',{getInitialState()->getStateName()}}); // adding initial state without a symbol
 
-    for (char symbol : inputString) {
+    if (symbol == '\0')
+        symbol = EPSILON;
+
+    while (canIterateString) {
+
+
+        if (symbol != EPSILON)
+            symbol = inputString[stringIterator];
+
+        if (symbol == '\0')
+            symbol = EPSILON;
+
         std::vector<std::shared_ptr<State>> nextStates;
 
         for (auto &state : currentStates) {
-            auto destinations = state->getDestinationStates(symbol);
-            nextStates.insert(nextStates.end(), destinations.begin(), destinations.end());
+            auto statesHolder = state->getDestinationStates(symbol);
+            nextStates.insert(nextStates.end(), statesHolder.begin(), statesHolder.end());
         }
 
         if (nextStates.empty())
@@ -71,14 +90,34 @@ bool NFA::evaluateAutomata(const std::string &inputString) {
 
         currentStates = nextStates;
 
-        TraversalStep step;
-        step.symbol = symbol;
 
-        for (auto &state : currentStates)
-            step.states.push_back(state->getStateName());
-
-        result.steps.push_back(step);
+        stringIterator++;
+        if (stringIterator >= inputSize)
+            canIterateString = false;
     }
+
+    // for (auto symbol : inputString) {
+    //     std::vector<std::shared_ptr<State>> nextStates;
+    //
+    //     for (auto &state : currentStates) {
+    //         auto destinations = state->getDestinationStates(symbol);
+    //
+    //         nextStates.insert(nextStates.end(), destinations.begin(), destinations.end());
+    //     }
+    //
+    //     if (nextStates.empty())
+    //         return false;
+    //
+    //     currentStates = nextStates;
+    //
+    //     TraversalStep step;
+    //     step.symbol = symbol;
+    //
+    //     for (auto &state : currentStates)
+    //         step.states.push_back(state->getStateName());
+    //
+    //     result.steps.push_back(step);
+    // }
 
     for (auto &state : currentStates)
         if (state->isFinalState()) {

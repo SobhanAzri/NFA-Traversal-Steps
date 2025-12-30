@@ -30,8 +30,10 @@ struct TransitionProperties {
 class Renderer {
 public :
     Renderer() = default;
+    Renderer(Font font) : font(font) {}
     ~Renderer() = default;
 
+    inline void initializeFont(Font font) { this->font = font; };
     void initializeVisualModel(const NFA &nfa);
 
     static float computeRadius();
@@ -41,10 +43,13 @@ public :
 
 protected :
     int stateCount = 0;
+    std::vector<char> alphabet;
 
     std::unordered_map<std::string ,StateProperties> visualStates;
     std::vector<TransitionProperties> visualTransitions;
 
     std::vector<Vector2> statePositions;
+
+    Font font;
 };
 #endif //NFA_TRAVERSAL_STEPS_RENDERER_H

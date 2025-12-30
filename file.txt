@@ -2,10 +2,17 @@ states: q0 q1 q2
 alphabet: a b
 start: q0
 final: q2
-delta:
+
+# i use 'λ' for epsilon so for assigniing epsilon transitions write something like this "q0 λ q1"
+# dont insert blank line between transitions field
+
+transitions:
+# 'from' - 'symbol' - 'to'
 q0 a q1
 q0 b q1 q2
-
+q1 a q2
+q0 λ q1
+q2 a q2
 
 
 

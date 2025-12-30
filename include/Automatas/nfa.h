@@ -32,6 +32,8 @@ public :
     std::unordered_map<std::string, std::shared_ptr<State>> const& getAllStates() const { return states; }
 
     void initializeAlphabet(const char &symbol);
+    std::vector<char> getAlphabet() const {return alphabet;}
+
     void initializeTransitions(const std::string &currentState ,
                                const std::vector<std::string> &destinationStates,
                                const char &symbol);

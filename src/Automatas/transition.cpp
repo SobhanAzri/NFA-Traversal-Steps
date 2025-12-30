@@ -4,6 +4,8 @@
 
 #include "Automatas/transition.h"
 
+#define EPSILON '^'
+
 void Transition::initTransition() {
 
 }

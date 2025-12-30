@@ -7,7 +7,7 @@
 #include "Tools/raygui.h"
 
 #define RADIUS 80
-
+#define EPSILON '^'
 
 void drawArrow(const Vector2 &start, const Vector2 &end)
 {
@@ -42,6 +42,9 @@ void Renderer::initializeVisualModel(const NFA &nfa) {
     int iterator = stateCount - 1;
 
     computePositions();
+
+    // first Initialize Alphabet
+    alphabet = nfa.getAlphabet();
 
     // first loop for initializing State Properties
     for (auto &[name, statePointer] : *allStates)
@@ -102,8 +105,18 @@ void Renderer::computePositions() {
 
 void Renderer::drawVisualModel() {
 
+    // drawing Alphabet
+    std::string alphabetText = "Σ = { ";
+    for (auto const &symbol : alphabet) {
+        if (symbol == EPSILON)
+            continue;
 
-    Font font = LoadFontEx("resources/Roboto.ttf",32,nullptr,0);
+        alphabetText += symbol;
+        alphabetText += " , ";
+    }
+    alphabetText.replace(alphabetText.length() - 2,1,"}");
+
+    DrawTextEx(font, alphabetText.data(), {12,12}, 42, 1, BLACK);
 
 
     // drawing states
@@ -111,6 +124,9 @@ void Renderer::drawVisualModel() {
     {
         DrawCircleLinesV(stateProperty.position,stateProperty.radius,BLACK);
 
+        if (stateProperty.bIsInitial)
+            drawArrow({stateProperty.position.x - RADIUS - 70, stateProperty.position.y},
+                {stateProperty.position.x - RADIUS,stateProperty.position.y});
         if (stateProperty.bIsFinal)
             DrawCircleLinesV(stateProperty.position,(stateProperty.radius * .8f),BLACK);
 
@@ -129,16 +145,23 @@ void Renderer::drawVisualModel() {
 
 
         std::string symbols = "{ ";
-        for (auto s : iterator.symbols) {
-                symbols += s;
-                symbols += ",";
+        for (auto const character : iterator.symbols) {
+
+            if (character == EPSILON)
+                symbols += "λ";
+            else
+                symbols += character;
+            symbols += ",";
         }
         symbols.replace(symbols.length() - 1,1," }");
 
         // drawing symbols of a transition
+        DrawRectangle((visualStates[iterator.currentState].position.x + visualStates[iterator.destinationState].position.x) /2 + 5,
+                 (visualStates[iterator.currentState].position.y + visualStates[iterator.destinationState].position.y) /2 + 5,
+                  symbols.length() * 11, 35, WHITE);
         DrawTextEx(font, symbols.data(),
                  {(visualStates[iterator.currentState].position.x + visualStates[iterator.destinationState].position.x) /2 + 5,
                  (visualStates[iterator.currentState].position.y + visualStates[iterator.destinationState].position.y) /2 + 5},
                  32, 1, BLACK);
-    }
+    };
 }
