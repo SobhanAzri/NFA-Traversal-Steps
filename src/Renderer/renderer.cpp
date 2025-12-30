@@ -8,7 +8,6 @@
 
 #define RADIUS 80
 #define EPSILON '^'
-int codepoints[] = { 0x03BB, 0x03C3 };
 
 void drawArrow(const Vector2 &start, const Vector2 &end)
 {
@@ -106,12 +105,12 @@ void Renderer::computePositions() {
 
 void Renderer::drawVisualModel() {
 
-
-    Font font = LoadFont("resources/DejaVuSans.ttf");
-
     // drawing Alphabet
-    std::string alphabetText = "Alphabet = { ";
+    std::string alphabetText = "Σ = { ";
     for (auto const &symbol : alphabet) {
+        if (symbol == EPSILON)
+            continue;
+
         alphabetText += symbol;
         alphabetText += " , ";
     }

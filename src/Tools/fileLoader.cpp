@@ -17,7 +17,7 @@ void FileLoader::loadNfa(NFA &nfa, const char *filePath) {
         std::string line;
         bool isParsingTransitions = false;
 
-        nfa.initializeAlphabet('235');
+        nfa.initializeAlphabet(EPSILON);
 
         while (std::getline(file,line))
         {

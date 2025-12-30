@@ -16,6 +16,7 @@
 
 char* filePath;
 char* filePatterns[] = {"*.txt"};
+std::vector<int> codepoints;
 
 void initializeMainWindow();
 void initializeTextField(char userInput[], bool &canEdit);
@@ -23,7 +24,13 @@ void initializeTextField(char userInput[], bool &canEdit);
 int main() {
     initializeMainWindow();
 
-    Font font = LoadFontEx("resources/DejaVuSans.ttf", 64, nullptr, 0);
+    // initializing codepoints for adding support for lambda and sigma symbols
+    for (int i = 32; i < 127; i++)
+        codepoints.push_back(i);
+    codepoints.push_back(0x03BB);
+    codepoints.push_back(0x03A3);
+
+    Font font = LoadFontEx("resources/Roboto.ttf", 64, codepoints.data(), codepoints.size());
 
     GuiSetFont(font);
     GuiSetStyle(DEFAULT, TEXT_SIZE, 30);
@@ -34,7 +41,7 @@ int main() {
     bool editMode = false;
 
     NFA nfa;
-    Renderer renderer;
+    Renderer renderer(font);
 
     FileLoader::loadNfa(nfa,"");
 
@@ -127,7 +134,7 @@ int main() {
 
 void initializeMainWindow() {
     InitWindow(WINDOW_MAIN_WIDTH, WINDOW_MAIN_HEIGHT, WINDOW_MAIN_TITLE);
-    SetTargetFPS(60);
+    SetTargetFPS(30);
     ToggleFullscreen();
     ClearBackground(LIGHTGRAY);
 }
