@@ -8,7 +8,6 @@ add_executable(NFA_Traversal_Steps
         src/Tools/tinyfiledialogs.cpp
         src/Automatas/nfa.cpp  src/Automatas/state.cpp  src/Automatas/transition.cpp
         src/Renderer/renderer.cpp
-        include/Tools/fileLoader.h
         src/Tools/fileLoader.cpp
 )
 
