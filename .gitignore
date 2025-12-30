@@ -6,6 +6,7 @@ cmake-build-*
 Makefile
 CMakeCache.txt
 CMakeFiles/
+.cache/
 
 # build versions
 build/
