@@ -66,7 +66,7 @@ sudo pacman -S raylib
 ### Build Steps
 
 ```bash
-git clone https://github.com/yourusername/automata-visualizer.git
+git clone https://github.com/SobhanAzri/NFA-Traversal-Steps.git
 cd automata-visualizer
 mkdir build
 cd build
