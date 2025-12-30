@@ -18,7 +18,7 @@ The project focuses on a complete NFA system with automata initialization and ev
 
 ## Screenshots
 
-<img src="assets/screenshot1.png" width="650">
+<img src="assets/screenshot1.png" width="850">
 
 a view of the automata renderer
 
@@ -30,7 +30,7 @@ a view of the automata renderer
 
   ---
 
-  ## Example Configuration (`config.txt`)
+  ## Example Configuration (`file.txt`)
 
 ```txt
 states: q0 q1 q2
