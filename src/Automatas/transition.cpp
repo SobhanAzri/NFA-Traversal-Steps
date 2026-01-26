@@ -31,5 +31,7 @@ bool Transition::hasSymbol(const char &symbol) {
     return false;
 }
 
-
-
+void Transition::clear() {
+    currentState = destinationState = nullptr;
+    symbols.clear();
+}

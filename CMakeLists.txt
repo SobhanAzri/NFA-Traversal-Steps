@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 4.0)
 project(NFA_Traversal_Steps)
 
 set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 add_executable(NFA_Traversal_Steps
         src/main.cpp
@@ -11,15 +12,28 @@ add_executable(NFA_Traversal_Steps
         src/Tools/fileLoader.cpp
 )
 
-target_include_directories(NFA_Traversal_Steps PRIVATE
+if (WIN32)
+    set(CMAKE_EXE_LINKER_FLAGS "-static -static-libgcc -static-libstdc++")
+
+    target_include_directories(NFA_Traversal_Steps PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
+        /opt/raylib-win64/include)
+    target_link_directories(NFA_Traversal_Steps PRIVATE
+        /opt/raylib-win64/lib)
+    target_link_libraries(NFA_Traversal_Steps PRIVATE
+            raylib
+            winmm
+            gdi32
+            opengl32)
+elseif (UNIX)
+    target_include_directories(NFA_Traversal_Steps PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/include)
+    target_link_libraries(NFA_Traversal_Steps PRIVATE
+            raylib)
+endif()
 
 set_target_properties(NFA_Traversal_Steps PROPERTIES
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-)
-
-target_link_libraries(NFA_Traversal_Steps PRIVATE
-        raylib
 )
 
 add_custom_command(TARGET NFA_Traversal_Steps POST_BUILD

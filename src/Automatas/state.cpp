@@ -4,6 +4,7 @@
 
 #include "Automatas/state.h"
 #include "Automatas/transition.h"
+#include <memory>
 
 #define EPSILON '^'
 
@@ -28,16 +29,37 @@ std::vector<std::shared_ptr<State>> State::getDestinationStates(char symbol) con
     std::vector<std::shared_ptr<State>> result;
 
     for (auto const& transition : transitions) {
-        auto const &destinationStates = transition.second->getDestinationState();
-        if (transition.second->hasSymbol(EPSILON))
-        {
-            result.push_back(destinationStates);
-            for (auto const& states : destinationStates->getDestinationStates(symbol))
-                result.push_back(states);
-        }
-        else if (transition.second->hasSymbol(symbol))
+        if (transition.second->hasSymbol(symbol))
             result.push_back(transition.second->getDestinationState());
     }
 
     return result;
+}
+
+void State::epsilonClosure(std::unordered_set<std::shared_ptr<State>> &states) {
+
+    if (states.contains(getClassPtr()))
+        return;
+
+    states.insert(shared_from_this());
+
+    for (auto const &transition : transitions){
+        if (transition.second->hasSymbol(EPSILON)) {
+            transition.second->getDestinationState()->epsilonClosure(states);
+        }
+    }
+}
+
+void State::clear() {
+    bool bIsInitialState = false;
+    bool bIsFinalState = false;
+    stateName.clear();
+
+    for (auto transition : transitions)
+    {
+        transition.second->clear();
+        transition.second = nullptr;
+    }
+
+    transitions.clear();
 }

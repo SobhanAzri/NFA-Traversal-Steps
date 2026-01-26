@@ -5,8 +5,8 @@
 #ifndef NFA_TRAVERSAL_STEPS_RENDERER_H
 #define NFA_TRAVERSAL_STEPS_RENDERER_H
 
+#include <memory>
 #include <string>
-#include <cmath>
 #include <vector>
 #include <unordered_map>
 #include "raylib.h"
@@ -28,20 +28,28 @@ struct TransitionProperties {
 };
 
 class Renderer {
-public :
-    Renderer() = default;
-    Renderer(Font font) : font(font) {}
-    ~Renderer() = default;
 
-    inline void initializeFont(Font font) { this->font = font; };
+    Renderer() = default;
+
+public :
+
+    Renderer(Font font) : font(font) {}
+    ~Renderer()= default;
+
+    static Renderer& getInstance();
+
+    inline void initializeFont(Font font) { this->font = font; }
+
     void initializeVisualModel(const NFA &nfa);
 
-    static float computeRadius();
     void computePositions();
 
     void drawVisualModel();
 
+    void resetRenderer();
+
 protected :
+
     int stateCount = 0;
     std::vector<char> alphabet;
 
@@ -51,5 +59,10 @@ protected :
     std::vector<Vector2> statePositions;
 
     Font font;
+    std::string errorsContext;
+
+private :
+    static std::unique_ptr<Renderer> s_pInstance;
+
 };
 #endif //NFA_TRAVERSAL_STEPS_RENDERER_H

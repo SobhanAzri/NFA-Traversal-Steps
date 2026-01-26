@@ -25,6 +25,8 @@ public :
 
     [[nodiscard]] std::shared_ptr<State> getDestinationState() const {return destinationState;}
 
+    void clear();
+
 private :
 
     std::shared_ptr<State> currentState;

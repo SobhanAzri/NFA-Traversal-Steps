@@ -12,6 +12,7 @@
 void FileLoader::loadNfa(NFA &nfa, const char *filePath) {
     std::ifstream file(filePath);
 
+
     if (file.is_open())
     {
         std::string line;
@@ -24,7 +25,7 @@ void FileLoader::loadNfa(NFA &nfa, const char *filePath) {
             std::istringstream lineStream(line.substr(line.find(':') + 1));
             std::string streamIterator;
 
-            if (line.empty() || line[0] == '#')
+            if (line.empty() || line[0] == '#') // Comments !
                 continue;
 
             if (line.starts_with("states:") || line.starts_with("states :")) {

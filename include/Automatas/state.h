@@ -6,6 +6,7 @@
 #define NFA_TRAVERSAL_STEPS_STATE_H
 
 #include <string>
+#include <unordered_set>
 #include <vector>
 #include <unordered_map>
 #include <memory>
@@ -15,10 +16,8 @@
 class State:  public std::enable_shared_from_this<State> {
 public :
     State() = default;
-
     ~State() = default;
 
-    /// * Logical Section Functions * \\\
 
     inline void setStateName(const std::string &name) { stateName = name; }
 
@@ -29,20 +28,19 @@ public :
     inline bool isInitialState() const { return bIsInitialState; }
     inline bool isFinalState() const { return bIsFinalState; }
 
+
     void initializeTransition(std::shared_ptr<State> destinationState, const char &symbol);
     std::unordered_map<std::string, std::shared_ptr<Transition>> const& getAllTransitions() const { return transitions; }
 
+    void epsilonClosure(std::unordered_set<std::shared_ptr<State>> &states);
 
     std::vector<std::shared_ptr<State>> getDestinationStates(char symbol) const;
     inline std::shared_ptr<State> getClassPtr() { return shared_from_this(); }
 
-    /// * Graphical Section Functions * \\\
-
+    void clear();
 
 
 protected :
-
-    /// * Logical Section Variables * \\\
 
     bool bIsInitialState = false;
     bool bIsFinalState = false;

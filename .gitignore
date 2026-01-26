@@ -9,11 +9,13 @@ CMakeFiles/
 .cache/
 
 # build versions
-build/
+build*/
 Debug/
 Release/
+
 
 # filetypes
 *.bin
 *.sh
 *.app
+*.exe

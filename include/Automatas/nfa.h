@@ -5,7 +5,6 @@
 #ifndef NFA_TRAVERSAL_STEPS_NFA_H
 #define NFA_TRAVERSAL_STEPS_NFA_H
 
-#include <iostream>
 #include <memory>
 #include <string>
 #include <unordered_map>
@@ -17,7 +16,6 @@ struct EvaluationResult; // forward decleration of the desired structure
 class NFA {
 public :
     NFA() = default;
-    explicit NFA(const std::string &filePath);
     ~NFA() = default;
 
     void insertState(const std::string &name);
@@ -27,12 +25,12 @@ public :
 
     State* getState(const std::string &stateName);
     [[nodiscard]] inline std::shared_ptr<State> getInitialState() const {return InitialState;};
-    //inline bool isInitialStateFinal() const { return InitialState->isFinalState(); }
 
     std::unordered_map<std::string, std::shared_ptr<State>> const& getAllStates() const { return states; }
 
     void initializeAlphabet(const char &symbol);
     std::vector<char> getAlphabet() const {return alphabet;}
+    bool isSymbolInAlphabet(const char &symbol);
 
     void initializeTransitions(const std::string &currentState ,
                                const std::vector<std::string> &destinationStates,
@@ -40,13 +38,22 @@ public :
 
     bool evaluateAutomata(const std::string &inputString);
 
+    std::string getErrorsContext() const;
+
+    void resetNFA();
+
 protected:
-    std::string filePath;
 
    std::shared_ptr<State> InitialState;
    std::unordered_map<std::string, std::shared_ptr<State>> states;  // maybe i will change it from unique_ptr to shared_ptr later
 
-    std::vector<char> alphabet;
+   std::vector<char> alphabet;
+
+
+   // Errors field
+   bool m_bInitialStateError = false;
+   bool m_bFinalStateError = false;
+   bool m_bTransitionError = false;
 };
 
 #endif //NFA_TRAVERSAL_STEPS_NFA_H
