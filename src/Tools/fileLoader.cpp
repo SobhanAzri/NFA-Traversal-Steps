@@ -6,8 +6,7 @@
 #include <fstream>
 #include <sstream>
 #include "Automatas/nfa.h"
-
-#define EPSILON '^'
+#include "Tools/constants.h"
 
 void FileLoader::loadNfa(NFA &nfa, const char *filePath) {
     std::ifstream file(filePath);
@@ -18,11 +17,19 @@ void FileLoader::loadNfa(NFA &nfa, const char *filePath) {
         std::string line;
         bool isParsingTransitions = false;
 
-        nfa.initializeAlphabet(EPSILON); // adding epsilon to alphabets
 
         while (std::getline(file,line))
         {
-            std::istringstream lineStream(line.substr(line.find(':') + 1));
+            std::string payload;
+            auto colonPos = line.find(':');
+
+            if (colonPos != std::string::npos)
+                payload = line.substr(colonPos + 1);
+            else
+                payload = line;
+
+            std::istringstream lineStream(payload);
+
             std::string streamIterator;
 
             if (line.empty() || line[0] == '#') // Comments !
@@ -63,8 +70,8 @@ void FileLoader::loadNfa(NFA &nfa, const char *filePath) {
                 while (lineStream >> streamIterator)
                     destinations.push_back(streamIterator);
 
-                if (symbol == "λ")
-                    nfa.initializeTransitions(from,destinations,EPSILON);
+                if (symbol == "λ" || symbol == "^")
+                    nfa.initializeTransitions(from,destinations,NFA_EPSILON);
                 else
                     nfa.initializeTransitions(from,destinations,symbol[0]);
             }

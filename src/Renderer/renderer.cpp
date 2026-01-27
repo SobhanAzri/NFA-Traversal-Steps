@@ -5,14 +5,16 @@
 #include "Renderer/renderer.h"
 #include "Automatas/nfa.h"
 #include "Tools/raygui.h"
+#include "Tools/constants.h"
 #include <cmath>
-#include <memory>
 #include <raylib.h>
 #include <raymath.h>
 
+#define WINDOW_WIDTH GetMonitorWidth(0)
+#define WINDOW_HEIGHT GetMonitorHeight(0)
+
 #define LINE_COLOR BLACK
-#define RADIUS 80
-#define EPSILON '^'
+#define RADIUS 60
 
 std::unique_ptr<Renderer> Renderer::s_pInstance = nullptr;
 
@@ -80,14 +82,11 @@ void Renderer::initializeVisualModel(const NFA &nfa) {
 void Renderer::computePositions() {
     statePositions.clear();
 
-    int screenWidth = GetScreenWidth();
-    int screenHeight = GetScreenHeight();
-
     int columns = ceil(sqrt(stateCount));
     int rows = ceil((float)stateCount / columns);
 
-    float cellWidth = (float)screenWidth / columns;
-    float cellHeight = (float)screenHeight / rows;
+    float cellWidth = (float)WINDOW_WIDTH / columns;
+    float cellHeight = (float)WINDOW_HEIGHT / rows;
 
     for (int i = 0; i < stateCount; i++)
     {
@@ -104,16 +103,16 @@ void Renderer::computePositions() {
 void Renderer::drawVisualModel() {
 
     DrawTextEx(font,"Edit Automata.txt and Click Reload Button!",
-        {750,15},
+        {static_cast<float>(WINDOW_WIDTH / 2 - 210),15},
         24,1, BLACK);
 
     DrawTextEx(font,"Sobhan Azari",
-        {1750,1050},
+        {1750,static_cast<float>(WINDOW_HEIGHT - 30)},
         24,1, BLACK);
 
      if (!errorsContext.empty()){
 
-         Vector2 screenCenter = {450,350};
+         Vector2 screenCenter = {450,static_cast<float>(WINDOW_HEIGHT / 6)};
 
         DrawTextEx(font, errorsContext.data(), screenCenter, 64, 1, RED);
 
@@ -126,7 +125,7 @@ void Renderer::drawVisualModel() {
         std::string alphabetText = "Σ = { ";
 
         for (auto const &symbol : alphabet) {
-            if (symbol == EPSILON)
+            if (symbol == NFA_EPSILON)
                 continue;
 
             alphabetText += symbol;
@@ -164,7 +163,7 @@ void Renderer::drawVisualModel() {
         std::string symbols = "{ ";
         for (auto const character : iterator.symbols) {
 
-            if (character == EPSILON)
+            if (character == NFA_EPSILON)
                 symbols += "λ";
             else
                 symbols += character;
@@ -300,7 +299,7 @@ void drawCurvedArrow(const Font &font, const Vector2 &start, const Vector2 &end,
 }
 
 void drawLoop(const Font &font, const Vector2 &statePosition, const std::string symbols) {
-    float loopRadius = 50;
+    float loopRadius = 40;
     int lineThickness = 2;
 
     Vector2 loopCenter = {0,0};

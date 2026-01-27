@@ -1,11 +1,13 @@
+#include <algorithm>
+#include <iostream>
+#include <iterator>
 #include <memory>
+#include <raymath.h>
 #include <unordered_set>
 
 #include "Automatas/nfa.h"
 #include "Automatas/state.h"
-#include "Automatas/evaluator.h"
-
-#define EPSILON '^'
+#include "Tools/constants.h"
 
 void NFA::insertState(const std::string &name) {
     states[name] = std::make_shared<State>();
@@ -65,7 +67,7 @@ void NFA::initializeTransitions(const std::string &currentState,
     {
         auto destinationStateIterator = states.find(destination);
 
-        if (currentStateIterator != states.end() && destinationStateIterator != states.end() && isSymbolInAlphabet(symbol))
+        if (currentStateIterator != states.end() && destinationStateIterator != states.end() && (isSymbolInAlphabet(symbol) || symbol == NFA_EPSILON))
             states[currentState]->initializeTransition(states[destination], symbol);
         else {
             m_bTransitionError = true;
@@ -81,7 +83,11 @@ bool NFA::evaluateAutomata(const std::string &inputString) {
 
     InitialState->epsilonClosure(currentStates);
 
-    for (char symbol : inputString) {
+
+    for ( auto const symbol : inputString ) {
+
+        if (!isSymbolInAlphabet(symbol))
+            return false;
 
         std::unordered_set<std::shared_ptr<State>> nextStates;
 
@@ -91,87 +97,14 @@ bool NFA::evaluateAutomata(const std::string &inputString) {
             }
         }
 
-        if (nextStates.empty())
+        if (nextStates.empty()){
+            m_bInitialStateError = true;
             return false;
-
-        currentStates = std::move(nextStates);
-
-    }
-
-
-    // TEST 1
-
-   /*  const int inputSize = static_cast<int>(inputString.size());
-    char symbol = inputString[0];
-    int stringIterator = 0;
-    bool canIterateString = true;
-
-    EvaluationResult result;
-
-    std::vector<std::shared_ptr<State>> currentStates;
-    currentStates.push_back(InitialState);
-
-    result.steps.push_back({'!',{getInitialState()->getStateName()}}); // adding initial state without a symbol
-
-    if (symbol == '\0')
-        symbol = EPSILON;
-
-
-    // cheking the empty input and seeing if our initial state is final or not
-
-    if (symbol == EPSILON && InitialState->isFinalState())
-        return true;
-    else if (symbol == EPSILON && !(InitialState->isFinalState()))
-        return false;
-
-    while (canIterateString) {
-
-        symbol = inputString[stringIterator];
-
-        std::vector<std::shared_ptr<State>> nextStates;
-
-        for (auto &state : currentStates) {
-            auto statesHolder = state->getDestinationStates(symbol);
-            nextStates.insert(nextStates.end(), statesHolder.begin(), statesHolder.end());
         }
 
-        if (nextStates.empty())
-            return false;
-
-        currentStates = nextStates;
-
-
-        stringIterator++;
-        if (stringIterator >= inputSize)
-            canIterateString = false;
+        currentStates = std::move(nextStates);
     }
-    */
 
-    // TEST 2
-
-
-    // for (auto symbol : inputString) {
-    //     std::vector<std::shared_ptr<State>> nextStates;
-    //
-    //     for (auto &state : currentStates) {
-    //         auto destinations = state->getDestinationStates(symbol);
-    //
-    //         nextStates.insert(nextStates.end(), destinations.begin(), destinations.end());
-    //     }
-    //
-    //     if (nextStates.empty())
-    //         return false;
-    //
-    //     currentStates = nextStates;
-    //
-    //     TraversalStep step;
-    //     step.symbol = symbol;
-    //
-    //     for (auto &state : currentStates)
-    //         step.states.push_back(state->getStateName());
-    //
-    //     result.steps.push_back(step);
-    // }
 
     for (auto &state : currentStates)
         if (state->isFinalState()) {

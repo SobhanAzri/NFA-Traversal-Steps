@@ -20,22 +20,17 @@
 #include "Tools/raygui.h"
 
 #define WINDOW_MAIN_TITLE "NFA Travers Steps"
-#define WINDOW_MAIN_WIDTH 1920
-#define WINDOW_AUTOMATA_WIDTH GetMonitorWidth(0)
-#define WINDOW_MAIN_HEIGHT 1080
-#define WINDOW_AUTOMATA_HEIGHT GetMonitorHeight(0)
-
 #define FILE_PATH "Automata.txt"
+
+#define WINDOW_WIDTH GetMonitorWidth(0)
+#define WINDOW_HEIGHT GetMonitorHeight(0)
 
 Font font;
 
-char* filePath;
-char* filePatterns[] = {"*.txt"};
 std::vector<int> codepoints;
 char* errorsContext;
 
 bool isRunning = true;
-bool requestOpenFile = false;
 
 void initializeMainWindow();
 void initializeTextField(char userInput[], bool &canEdit);
@@ -56,7 +51,7 @@ int main() {
     GuiSetFont(font);
     GuiSetStyle(DEFAULT, TEXT_SIZE, 25);
 
-    char inputString[] = "";
+    char inputString[256] = "";
     bool stringAccepted = false;
     bool showStringState = false;
     bool editMode = false;
@@ -67,22 +62,6 @@ int main() {
 
 
     while (!WindowShouldClose() && isRunning) {
-       /*  if (requestOpenFile)
-        {
-            filePath = tinyfd_openFileDialog("Open File", ".", 0, filePatterns, "Text Files", 0);
-
-            if (filePath)
-            {
-                Renderer::getInstance().resetRenderer();
-                nfa.resetNFA();
-
-                FileLoader::loadNfa(nfa,filePath);
-                Renderer::getInstance().initializeVisualModel(nfa);
-            }
-
-            requestOpenFile = false;
-            continue;
-        }*/
 
         BeginDrawing();
         ClearBackground(WHITE);
@@ -90,7 +69,7 @@ int main() {
         Renderer::getInstance().drawVisualModel();
 
         // file loader button
-        if (GuiButton({25, static_cast<float>(WINDOW_AUTOMATA_HEIGHT - 35), 475 , 30},
+        if (GuiButton({25, static_cast<float>(WINDOW_HEIGHT - 35), 475 , 30},
             "Reload Automata.txt"))
         {
             Renderer::getInstance().resetRenderer();
@@ -101,17 +80,17 @@ int main() {
         }
 
         // String Checker
-        if (GuiButton({400,1000,100,40},"CHECK")) {
+        if (GuiButton({400,static_cast<float>(WINDOW_HEIGHT - 80),100,40},"CHECK")) {
 
                 showStringState = true;
                 stringAccepted = nfa.evaluateAutomata(inputString);
         }
 
         if (showStringState) {
-            if (stringAccepted)
-                DrawTextEx(font, "YES, this automata accepts this string!", {550 , 1025}, 32, 1, GREEN);
+            if (stringAccepted == true)
+                DrawTextEx(font, "YES, this automata accepts this string!", {550 , static_cast<float>(WINDOW_HEIGHT - 55)}, 32, 1, GREEN);
             else
-                DrawTextEx(font, "NO, this string is not accepted by this automata!", {550 , 1025}, 32, 1, RED);
+                DrawTextEx(font, "NO, this string is not accepted by this automata!", {550 , static_cast<float>(WINDOW_HEIGHT - 55)}, 32, 1, RED);
         }
 
         initializeTextField(inputString, editMode);
@@ -128,7 +107,7 @@ int main() {
 }
 
 void initializeMainWindow() {
-    InitWindow(WINDOW_MAIN_WIDTH, WINDOW_MAIN_HEIGHT, WINDOW_MAIN_TITLE);
+    InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_MAIN_TITLE);
     SetTargetFPS(30);
     ToggleFullscreen();
     GuiLoadStyle("resources/style.rgs");
@@ -136,14 +115,14 @@ void initializeMainWindow() {
 }
 
 void initializeTextField(char userInput[], bool &canEdit) {
-    Rectangle rect = {25, static_cast<float>(WINDOW_AUTOMATA_HEIGHT - 80), 350, 40,};
+    Rectangle rect = {25, static_cast<float>(WINDOW_HEIGHT - 80), 350, 40,};
 
     if (GuiTextBox(rect, userInput, 64, canEdit))
         canEdit = !canEdit;
 }
 
 void initializeQuitButton() {
-    if (GuiButton({static_cast<float>(WINDOW_AUTOMATA_WIDTH - 55), 5, 50 , 50}, "X")) {
+    if (GuiButton({static_cast<float>(WINDOW_WIDTH - 55), 5, 50 , 50}, "X")) {
         isRunning = false;
     }
 }

@@ -40,6 +40,7 @@ public :
 
     std::string getErrorsContext() const;
 
+
     void resetNFA();
 
 protected:

@@ -4,7 +4,7 @@ build_dir_windows := "build-windows"
 executable := "NFA_Traversal_Steps"
 executable_windows := "NFA_Traversal_Steps.exe"
 generator := "Ninja"
-build_type := "Debug"                 # Debug || Release
+build_type := "Release"                 # Debug || Release
 threads := "$(nproc)"                   # use all cores
 
 # Main build (clean + configure + parallel build)

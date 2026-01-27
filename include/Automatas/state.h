@@ -20,7 +20,6 @@ public :
 
 
     inline void setStateName(const std::string &name) { stateName = name; }
-
     [[nodiscard]] inline std::string getStateName() const { return stateName; }
 
     inline void makeInitialState() { bIsInitialState = true; }

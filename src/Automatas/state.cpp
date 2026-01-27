@@ -1,12 +1,13 @@
+
 //
 // Created by nryxenon on 12/7/25.
 //
 
 #include "Automatas/state.h"
 #include "Automatas/transition.h"
+#include <iterator>
 #include <memory>
-
-#define EPSILON '^'
+#include "Tools/constants.h"
 
 void State::initializeTransition(std::shared_ptr<State> destinationState, const char &symbol) {
     const std::string &destinationName = destinationState->getStateName();
@@ -38,21 +39,23 @@ std::vector<std::shared_ptr<State>> State::getDestinationStates(char symbol) con
 
 void State::epsilonClosure(std::unordered_set<std::shared_ptr<State>> &states) {
 
-    if (states.contains(getClassPtr()))
+    auto self = getClassPtr();
+
+    if (states.contains(self))
         return;
 
-    states.insert(shared_from_this());
+    states.insert(self);
 
     for (auto const &transition : transitions){
-        if (transition.second->hasSymbol(EPSILON)) {
+        if (transition.second->hasSymbol(NFA_EPSILON)) {
             transition.second->getDestinationState()->epsilonClosure(states);
         }
     }
 }
 
 void State::clear() {
-    bool bIsInitialState = false;
-    bool bIsFinalState = false;
+    bIsInitialState = false;
+    bIsFinalState = false;
     stateName.clear();
 
     for (auto transition : transitions)
