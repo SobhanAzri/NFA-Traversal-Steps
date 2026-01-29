@@ -18,7 +18,9 @@ The project focuses on a complete NFA system with automata initialization and ev
 
 ## Screenshots
 
-<img src="assets/screenshot1.png" width="850">
+<img src="assets/Screenshot1.png" width="850">
+<img src="assets/Screenshot2.png" width="850">
+    
 
 a view of the automata renderer
 
