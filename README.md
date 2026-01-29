@@ -32,7 +32,7 @@ a view of the automata renderer
 
   ---
 
-  ## Example Configuration (`file.txt`)
+  ## Example Configuration (`Automata.txt`)
 
 ```txt
 states: q0 q1 q2
