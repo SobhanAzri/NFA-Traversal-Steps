@@ -59,7 +59,10 @@ i will provide executables for this project after a couple of weeks but you can 
 
 ### Dependencies
 Make sure Raylib is installed on your system.
+if you want to build this project on windows, you're probably good to go. because i've included build files for windows in the 'Windows build files' directory.
+but if you're on linux , probably your package manager has reylib and you can install it from there.
 
+for example you can install raylib on Arch Linux with the command below :
 #### Arch Linux
 ```bash
 sudo pacman -S raylib
